@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## [3.7.1] - 2026-02-13
+
+### Changed
+- **TopBar: centered on all pages** (`diffwinratio_client.tsx`, `diff_heatmap_client.tsx`)
+  - Removed `align="left"` from both DiffWinRatio and DiffCount pages
+  - TopBar now uses default center alignment across all pages
+- **DiffStatsPanel: toggleable slide-over** (`diff_stats_panel.tsx`, `diff_heatmap_client.tsx`)
+  - Panel can now be opened/closed via toggle button on right edge
+  - Smooth slide transition (300ms ease-in-out)
+  - Toggle button shows panel icon + chevron direction indicator
+  - Panel defaults to open on page load
+- **DiffStatsPanel: drilldown on hover** (`diff_stats_panel.tsx`)
+  - When hovering a constituency on the map, panel drills down to show:
+    - Area-level detail: diff count, diff %, MP/party-list turnout breakdown, meta info
+    - Region-level aggregated stats for the hovered area's region
+    - Nationwide stats below for context
+  - When no area is hovered, shows default nationwide + all regions view
+  - Color-coded diff values (positive/negative) matching dot legend colors
+
 ## [3.7.0] - 2026-02-13
 
 ### Added
