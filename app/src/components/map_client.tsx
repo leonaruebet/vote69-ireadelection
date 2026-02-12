@@ -8,7 +8,7 @@
  *              Toggle between absolute count diff and percentage diff modes.
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { GeoJSON } from "geojson";
 import type {
@@ -18,7 +18,6 @@ import type {
 } from "@/types/constituency";
 import {
   get_diff_dot_colors,
-  PROV_ID_TO_REGION,
   REGION_ORDER,
   REGION_NAMES,
   type RegionKey,

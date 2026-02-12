@@ -13,6 +13,7 @@ import {
   calculate_totals,
   build_election_lookups,
 } from "@/lib/data";
+import Link from "next/link";
 import MapClient from "@/components/map_client";
 import { useTranslations } from "next-intl";
 
@@ -23,7 +24,6 @@ import { useTranslations } from "next-intl";
  * @returns Error UI with retry link.
  */
 function ErrorFallback({ msg }: { msg: string }) {
-  /* eslint-disable react-hooks/rules-of-hooks */
   const t = useTranslations("error");
 
   return (
@@ -33,12 +33,12 @@ function ErrorFallback({ msg }: { msg: string }) {
           {t("failed_to_load")}
         </h2>
         <p className="text-sm text-text-muted mb-4">{msg}</p>
-        <a
+        <Link
           href="/"
           className="inline-block px-5 py-2 rounded-md border border-accent text-accent-light text-sm hover:bg-accent hover:text-white transition-colors"
         >
           {t("retry")}
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -47,31 +47,35 @@ function ErrorFallback({ msg }: { msg: string }) {
 export default async function Home() {
   console.log("[page] Server-side data loading...");
 
+  let features: Awaited<ReturnType<typeof enrich_constituency_features>>;
+  let totals: Awaited<ReturnType<typeof calculate_totals>>;
+  let election_lookups: Awaited<ReturnType<typeof build_election_lookups>>;
+
   try {
-    const [geojson, ect_records, election_lookups] = await Promise.all([
+    const [geojson, ect_records, lookups] = await Promise.all([
       Promise.resolve(load_constituency_geojson()),
       fetch_ect_data(),
       build_election_lookups(),
     ]);
 
-    const features = enrich_constituency_features(geojson, ect_records);
-    const totals = calculate_totals(ect_records);
+    features = enrich_constituency_features(geojson, ect_records);
+    totals = calculate_totals(ect_records);
+    election_lookups = lookups;
 
     console.log(
       `[page] Passing ${features.length} constituency features + election lookups to client`
     );
-
-    return (
-      <MapClient
-        features={features}
-        totals={totals}
-        election_lookups={election_lookups}
-      />
-    );
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Unknown error";
     console.error("[page] Data load failed:", msg);
-
     return <ErrorFallback msg={msg} />;
   }
+
+  return (
+    <MapClient
+      features={features}
+      totals={totals}
+      election_lookups={election_lookups}
+    />
+  );
 }

@@ -10,7 +10,7 @@
  *   4. Key insights: computed statistics from all 400 constituencies
  */
 
-import { useMemo, useRef, useEffect, useState, useCallback } from "react";
+import { useMemo, useRef, useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import * as d3 from "d3";
 import type { GeoJSON } from "geojson";
@@ -28,11 +28,6 @@ import {
 import TopBar from "@/components/topbar";
 import WinnerDiffPiechart, { type WinnerDiffItem } from "@/components/winner_diff_piechart";
 import RegionNormalizedPiechart, { type RegionNormalizedItem } from "@/components/region_normalized_piechart";
-import {
-  compute_region_stats,
-  group_by_region,
-  type RegionDiffStats,
-} from "@/components/diff_stats_panel";
 
 // ── Region color palette ───────────────────
 

@@ -20,6 +20,7 @@ import type {
   ConsPartyListData,
   ConsReferendumData,
   ConsDiffData,
+  ConsBallotForensicsData,
   ElectionLookups,
 } from "@/types/constituency";
 import {

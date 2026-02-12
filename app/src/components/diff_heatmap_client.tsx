@@ -12,7 +12,6 @@
 
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useLocale } from "next-intl";
 import * as d3 from "d3";
 import type { GeoJSON } from "geojson";
 import type {
@@ -278,8 +277,6 @@ export default function DiffHeatmapClient({
   const [mouse_event, set_mouse_event] = useState<MouseEvent | null>(null);
   const [panel_open, set_panel_open] = useState(true);
   const t = useTranslations("heatmap");
-  const locale = useLocale();
-
   console.log("[diff_heatmap] Rendering with tab:", active_tab, "panel_open:", panel_open);
 
   /**

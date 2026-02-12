@@ -247,12 +247,66 @@ export interface ConsDiffData {
 /** Metric toggle for diff heatmap page. */
 export type DiffMetric = "diff_count" | "diff_percent";
 
+/**
+ * Ballot forensics data per constituency — invalid/blank/valid vote analysis.
+ *
+ * @description Exposes hidden data from ECT APIs: invalid votes, blank votes,
+ *              valid vote ratios, reporting completeness, and registered voter turnout.
+ *              All percentage fields are pre-computed as (value / turnout * 100).
+ */
+export interface ConsBallotForensicsData {
+  /** Number of invalid MP ballot votes. */
+  mp_invalid_votes: number;
+  /** Invalid MP votes as % of MP turnout. */
+  mp_invalid_pct: number;
+  /** Number of invalid party list ballot votes. */
+  pl_invalid_votes: number;
+  /** Invalid PL votes as % of PL turnout. */
+  pl_invalid_pct: number;
+  /** mp_invalid_pct - pl_invalid_pct (positive = more MP invalids). */
+  invalid_diff: number;
+  /** Number of blank MP ballot votes. */
+  mp_blank_votes: number;
+  /** Blank MP votes as % of MP turnout. */
+  mp_blank_pct: number;
+  /** Number of blank party list ballot votes. */
+  pl_blank_votes: number;
+  /** Blank PL votes as % of PL turnout. */
+  pl_blank_pct: number;
+  /** mp_blank_pct - pl_blank_pct (positive = more MP blanks). */
+  blank_diff: number;
+  /** Number of valid MP ballot votes. */
+  mp_valid_votes: number;
+  /** Valid MP votes as % of MP turnout. */
+  mp_valid_pct: number;
+  /** Number of valid party list ballot votes. */
+  pl_valid_votes: number;
+  /** Valid PL votes as % of PL turnout. */
+  pl_valid_pct: number;
+  /** mp_valid_pct - pl_valid_pct. */
+  valid_diff: number;
+  /** Number of stations that have reported results. */
+  counted_vote_stations: number;
+  /** Total number of vote stations in the constituency. */
+  total_vote_stations: number;
+  /** Percentage of stations counted (0-100). */
+  percent_count: number;
+  /** Whether ECT has paused reporting for this constituency. */
+  pause_report: boolean;
+  /** Registered voters for the constituency. */
+  registered_voters: number;
+  /** MP turnout as % of registered voters. */
+  mp_turnout_of_registered: number;
+}
+
 /** Bundle of all election lookups keyed by cons_id. */
 export interface ElectionLookups {
   winners: Record<string, ConsWinnerData>;
   party_list: Record<string, ConsPartyListData>;
   referendum: Record<string, ConsReferendumData>;
   diff: Record<string, ConsDiffData>;
+  /** Ballot forensics: invalid/blank/valid vote analysis per constituency. */
+  forensics: Record<string, ConsBallotForensicsData>;
 }
 
 /** GeoJSON feature properties for constituency-level map. */

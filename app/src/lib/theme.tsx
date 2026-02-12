@@ -69,7 +69,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored === "light" || stored === "dark") {
         console.log(`[theme] Hydration sync: localStorage has "${stored}"`);
-        set_theme(stored);
+        set_theme(stored); // eslint-disable-line react-hooks/set-state-in-effect -- Intentional hydration sync from localStorage
       }
     } catch {
       /* restricted storage */
