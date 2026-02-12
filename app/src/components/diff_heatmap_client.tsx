@@ -226,7 +226,7 @@ function DiffLegend({ active_metric, extent }: DiffLegendProps) {
   const dot_colors = get_diff_dot_colors();
 
   return (
-    <div className="absolute bottom-6 left-6 bg-bg-tertiary border border-border-primary rounded-xl px-4 py-3 z-50">
+    <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-bg-tertiary border border-border-primary rounded-xl px-3 py-2 sm:px-4 sm:py-3 z-50 max-w-[calc(100%-2rem)] sm:max-w-none">
       <div className="text-[11px] text-text-secondary font-semibold uppercase tracking-wider mb-2">
         {active_metric === "diff_count" ? t("tab_count") : t("tab_percent")}
       </div>

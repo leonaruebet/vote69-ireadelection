@@ -243,7 +243,7 @@ export default function DiffStatsPanel({ features, diff_lookup }: DiffStatsPanel
   );
 
   return (
-    <div className="absolute top-0 right-0 h-full w-[35%] min-w-[320px] z-[88]">
+    <div className="hidden md:block absolute top-0 right-0 h-full w-[35%] min-w-[320px] z-[88]">
       <div className="h-full bg-bg-primary/95 backdrop-blur-lg border-l border-border-primary shadow-[-4px_0_32px_var(--shadow-tooltip)] overflow-y-auto">
         <div className="p-4 pt-6">
           {/* Panel header */}

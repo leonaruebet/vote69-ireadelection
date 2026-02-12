@@ -768,7 +768,7 @@ export default function HeatmapGraphsClient({
       </div>
 
       {/* Main content */}
-      <div className="max-w-6xl mx-auto px-6 pt-32 pb-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12">
         {/* Page header */}
         <h1 className="text-2xl font-bold text-text-primary mb-2">{t("title")}</h1>
         <p className="text-sm text-text-secondary leading-relaxed mb-10">

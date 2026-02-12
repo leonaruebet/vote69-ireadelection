@@ -148,7 +148,7 @@ export default function MapClient({ features, totals, election_lookups }: MapCli
    * @returns Grid of metric card elements.
    */
   const render_metric_cards = (stats: RegionDiffStats) => (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
       {/* Mismatch fraction */}
       <div className="bg-bg-secondary border border-border-primary rounded-lg p-3 text-center">
         <div className="text-[10px] text-text-muted mb-1">{t("stats_mismatch")}</div>
@@ -234,7 +234,7 @@ export default function MapClient({ features, totals, election_lookups }: MapCli
       <TopBar />
 
       {/* Main content area with top padding for topbar clearance */}
-      <div className="max-w-5xl mx-auto px-6 pt-20 pb-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-20 pb-12">
         {/* Page header */}
         <h1 className="text-xl font-bold text-text-primary mb-1">{t("stats_title")}</h1>
         <p className="text-sm text-text-muted mb-3">
@@ -276,11 +276,11 @@ export default function MapClient({ features, totals, election_lookups }: MapCli
         </div>
 
         {/* Hero: Total diff — big prominent number */}
-        <div className="mb-10 bg-bg-secondary border border-border-primary rounded-2xl p-8 text-center">
+        <div className="mb-10 bg-bg-secondary border border-border-primary rounded-2xl p-5 sm:p-8 text-center">
           <div className="text-sm text-text-muted mb-3">
             {is_pct ? t("stats_total_pct_diff") : t("stats_total_abs_diff")}
           </div>
-          <div className="text-5xl font-extrabold text-accent tracking-tight">
+          <div className="text-3xl sm:text-5xl font-extrabold text-accent tracking-tight">
             {is_pct
               ? `${compute_overall_pct(nationwide).toFixed(2)}%`
               : nationwide.sum_abs_count.toLocaleString()
@@ -299,7 +299,7 @@ export default function MapClient({ features, totals, election_lookups }: MapCli
           <div className="text-sm font-semibold text-text-primary uppercase tracking-wider mb-4">
             {t("stats_nationwide")}
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
             {/* Mismatch fraction */}
             <div className="bg-bg-secondary border border-border-primary rounded-xl p-5 text-center">
               <div className="text-xs text-text-muted mb-2">{t("stats_mismatch")}</div>

@@ -203,7 +203,7 @@ function SizeLegend({ vote_range, size_scale }: SizeLegendProps) {
   ];
 
   return (
-    <div className="absolute bottom-6 left-6 bg-bg-tertiary border border-border-primary rounded-xl px-4 py-3 z-50">
+    <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-bg-tertiary border border-border-primary rounded-xl px-3 py-2 sm:px-4 sm:py-3 z-50 max-w-[calc(100%-2rem)] sm:max-w-none">
       <div className="text-[11px] text-text-secondary font-semibold uppercase tracking-wider mb-2">
         {t("bubble_size_label")}
       </div>
@@ -469,7 +469,13 @@ export default function DiffWinRatioClient({
 
     const width = window.innerWidth;
     const height = window.innerHeight;
-    const margin = { top: 140, right: 50, bottom: 80, left: 90 };
+    const is_mobile = width < 640;
+    const margin = {
+      top: is_mobile ? 120 : 140,
+      right: is_mobile ? 16 : 50,
+      bottom: is_mobile ? 60 : 80,
+      left: is_mobile ? 50 : 90,
+    };
     const chart_w = width - margin.left - margin.right;
     const chart_h = height - margin.top - margin.bottom;
 
@@ -682,8 +688,8 @@ export default function DiffWinRatioClient({
       {/* D3 scatter-bubble chart */}
       <svg ref={svg_ref} className="absolute inset-0" />
 
-      {/* TopBar aligned left */}
-      <TopBar align="left" />
+      {/* TopBar centered */}
+      <TopBar />
 
       {/* Sub-bar: back link + page title */}
       <div className="absolute top-[4.5rem] left-4 z-[89]">
