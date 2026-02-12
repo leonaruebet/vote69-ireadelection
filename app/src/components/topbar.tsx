@@ -214,11 +214,11 @@ export default function TopBar({
     <>
       {/* ── Main TopBar ── */}
       <div
-        className={`fixed top-4 z-[100] w-[calc(100%-2rem)] sm:w-auto ${
+        className={`fixed top-4 z-[100] pointer-events-auto w-[calc(100%-2rem)] sm:w-auto ${
           align === "left" ? "left-4" : "left-4 sm:left-1/2 sm:-translate-x-1/2"
         }`}
       >
-        <div className="flex items-center gap-1 bg-bg-secondary/95 backdrop-blur-md border border-border-primary rounded-full px-2 py-1.5 shadow-[0_4px_24px_var(--shadow-tooltip)]">
+        <div className="relative flex items-center gap-1 bg-bg-secondary/95 backdrop-blur-md border border-border-primary rounded-full px-2 py-1.5 shadow-[0_4px_24px_var(--shadow-tooltip)]">
           {/* Brand button — always links back to root map */}
           <a
             href={`/${locale}`}

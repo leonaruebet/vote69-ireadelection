@@ -221,7 +221,7 @@ export default function PartyAnalysisClient({
     stats.sort((a, b) => b.total_abs_diff - a.total_abs_diff);
     console.log(`[party_analysis] Computed stats for ${stats.length} parties`);
     return stats;
-  }, [all_items, global_stats]);
+  }, [all_items, global_stats, election_lookups.forensics]);
 
   // ── Unique parties for filter pills ────────
 

@@ -131,7 +131,6 @@ export default function BallotForensicsClient({
 
       const winner = election_lookups.winners[cons_data.cons_id];
       const diff = election_lookups.diff[cons_data.cons_id];
-      const referendum = election_lookups.referendum[cons_data.cons_id];
       const region = PROV_ID_TO_REGION[cons_data.prov_id] || "central";
 
       // Referendum turnout: use percent_turn_out from referendum data
