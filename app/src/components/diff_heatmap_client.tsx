@@ -401,8 +401,8 @@ export default function DiffHeatmapClient({
       {/* TopBar centered */}
       <TopBar />
 
-      {/* Sub-bar: diff tab toggle (floating below TopBar, also left-aligned) */}
-      <div className="absolute top-[4.5rem] left-4 z-[89]">
+      {/* Sub-bar: diff tab toggle (floating below TopBar) */}
+      <div className="fixed top-[4.5rem] left-4 z-[90] max-w-[calc(100%-2rem)]">
         <div className="flex items-center gap-1 bg-bg-secondary/95 backdrop-blur-md border border-border-primary rounded-full px-2 py-1.5 shadow-[0_4px_24px_var(--shadow-tooltip)]">
           {/* Diff tab toggles */}
           {tabs.map((tab) => (

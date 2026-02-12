@@ -333,7 +333,7 @@ export default function ThailandMap({
     <div className="absolute inset-0">
       <svg ref={svg_ref} className="w-full h-full" />
 
-      <div className="absolute bottom-6 right-6 flex flex-col gap-1.5 z-50">
+      <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 flex flex-col gap-1.5 z-50">
         <button
           onClick={() => handle_zoom(1.5)}
           className="w-9 h-9 rounded-lg border border-border-primary bg-bg-tertiary text-text-primary flex items-center justify-center text-lg hover:bg-accent hover:border-accent hover:text-white transition-colors cursor-pointer"

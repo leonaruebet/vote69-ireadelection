@@ -281,7 +281,7 @@ function PartyFilter({ parties, selected, on_toggle, on_clear }: PartyFilterProp
   const is_all = selected.size === 0;
 
   return (
-    <div className="absolute top-[7.5rem] left-4 right-4 z-[88]">
+    <div className="fixed top-[4.5rem] sm:top-[7.5rem] left-4 right-4 z-[88]">
       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
         {/* "All" pill */}
         <button
@@ -713,8 +713,8 @@ export default function DiffWinRatioClient({
       {/* TopBar centered */}
       <TopBar />
 
-      {/* Sub-bar: back link + page title */}
-      <div className="absolute top-[4.5rem] left-4 z-[89]">
+      {/* Sub-bar: back link + page title (hidden on smallest screens) */}
+      <div className="hidden sm:block fixed top-[4.5rem] left-4 z-[90]">
         <div className="flex items-center gap-1 bg-bg-secondary/95 backdrop-blur-md border border-border-primary rounded-full px-2 py-1.5 shadow-[0_4px_24px_var(--shadow-tooltip)]">
           {/* Back to map */}
           <a

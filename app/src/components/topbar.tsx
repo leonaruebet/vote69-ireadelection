@@ -214,7 +214,7 @@ export default function TopBar({
     <>
       {/* ── Main TopBar ── */}
       <div
-        className={`absolute top-4 z-[90] w-[calc(100%-2rem)] sm:w-auto ${
+        className={`fixed top-4 z-[100] w-[calc(100%-2rem)] sm:w-auto ${
           align === "left" ? "left-4" : "left-4 sm:left-1/2 sm:-translate-x-1/2"
         }`}
       >
@@ -336,7 +336,7 @@ export default function TopBar({
 
             {/* Language dropdown */}
             {lang_open && (
-              <div className="absolute top-full right-0 mt-2 bg-bg-secondary border border-border-primary rounded-xl shadow-[0_8px_32px_var(--shadow-tooltip)] py-1 min-w-[160px] max-h-[280px] overflow-y-auto z-[100]">
+              <div className="absolute top-full right-0 mt-2 bg-bg-secondary border border-border-primary rounded-xl shadow-[0_8px_32px_var(--shadow-tooltip)] py-1 min-w-[160px] max-h-[280px] overflow-y-auto z-[110]">
                 {LOCALES.map((loc) => {
                   const meta = LOCALE_META[loc];
                   return (
@@ -388,7 +388,7 @@ export default function TopBar({
 
       {/* ── Mobile slide-down menu ── */}
       {menu_open && (
-        <div className="fixed inset-0 z-[89] md:hidden" onClick={() => set_menu_open(false)}>
+        <div className="fixed inset-0 z-[200] md:hidden" onClick={() => set_menu_open(false)}>
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
 

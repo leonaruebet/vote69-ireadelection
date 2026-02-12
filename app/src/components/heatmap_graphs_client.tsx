@@ -747,7 +747,7 @@ export default function HeatmapGraphsClient({
       <TopBar />
 
       {/* Sub-bar: back link + page title */}
-      <div className="absolute top-[4.5rem] left-1/2 -translate-x-1/2 z-[89]">
+      <div className="hidden sm:block fixed top-[4.5rem] left-1/2 -translate-x-1/2 z-[90]">
         <div className="flex items-center gap-1 bg-bg-secondary/95 backdrop-blur-md border border-border-primary rounded-full px-2 py-1.5 shadow-[0_4px_24px_var(--shadow-tooltip)]">
           {/* Back to home */}
           <a
@@ -794,17 +794,17 @@ export default function HeatmapGraphsClient({
       </div>
 
       {/* Main content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 pt-20 sm:pt-32 pb-12">
         {/* Page header */}
-        <h1 className="text-2xl font-bold text-text-primary mb-2">{t("title")}</h1>
-        <p className="text-sm text-text-secondary leading-relaxed mb-10">
+        <h1 className="text-xl sm:text-2xl font-bold text-text-primary mb-2">{t("title")}</h1>
+        <p className="text-sm text-text-secondary leading-relaxed mb-6 sm:mb-10">
           {t("subtitle")}
         </p>
 
         {/* ── Row 1: Pie Chart + Top 10 ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Pie Chart Card */}
-          <div className="bg-bg-secondary border border-border-primary rounded-2xl p-6">
+          <div className="bg-bg-secondary border border-border-primary rounded-2xl p-4 sm:p-6">
             <h2 className="text-base font-bold text-text-primary mb-4">{t("pie_title")}</h2>
 
             <div className="flex flex-col items-center">

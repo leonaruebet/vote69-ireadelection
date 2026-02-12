@@ -118,7 +118,20 @@ export default async function LocaleLayout({
         className="antialiased"
       >
         <NextIntlClientProvider messages={messages}>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            {children}
+            {/* SEO backlink */}
+            <footer className="fixed bottom-1 right-2 z-50">
+              <a
+                href="https://ireadcustomer.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[9px] text-text-muted/30 hover:text-text-muted/60 transition-colors no-underline"
+              >
+                ireadcustomer.com
+              </a>
+            </footer>
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

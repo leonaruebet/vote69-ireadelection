@@ -262,7 +262,7 @@ export default function MapClient({ features, totals, election_lookups }: MapCli
       <TopBar />
 
       {/* Main content area with top padding for topbar clearance */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-20 pb-12">
+      <div className="max-w-5xl mx-auto px-3 sm:px-6 pt-20 pb-12">
         {/* Page header */}
         <h1 className="text-xl font-bold text-text-primary mb-1">{t("stats_title")}</h1>
         <p className="text-sm text-text-muted mb-3">

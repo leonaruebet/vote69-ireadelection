@@ -850,7 +850,7 @@ export default function BallotForensicsClient({
       <TopBar />
 
       {/* Sub-bar */}
-      <div className="absolute top-[4.5rem] left-1/2 -translate-x-1/2 z-[89]">
+      <div className="hidden sm:block fixed top-[4.5rem] left-1/2 -translate-x-1/2 z-[90]">
         <div className="flex items-center gap-1 bg-bg-secondary/95 backdrop-blur-md border border-border-primary rounded-full px-2 py-1.5 shadow-[0_4px_24px_var(--shadow-tooltip)]">
           <a href={`/${locale}`} className="flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-medium text-text-secondary hover:bg-bg-tertiary hover:text-text-primary transition-colors cursor-pointer whitespace-nowrap">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
@@ -867,7 +867,7 @@ export default function BallotForensicsClient({
       </div>
 
       {/* Main content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 pt-20 sm:pt-32 pb-12">
         <h1 className="text-xl sm:text-2xl font-bold text-text-primary mb-2">{t("title")}</h1>
         <p className="text-sm text-text-secondary leading-relaxed mb-6 sm:mb-10">{t("subtitle")}</p>
 
