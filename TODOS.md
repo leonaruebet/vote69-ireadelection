@@ -1,6 +1,29 @@
 # Thailand Constituency Map Visualization
 
 ## Done ✓
+- [x] Party Analysis anomaly detection page @claude 2026-02-13
+  - Route: /[locale]/party-analysis
+  - Total absolute diff bar chart: Σ|diff| per party in winning constituencies
+  - Average diff bar chart: diverging (MP vs PL) per party
+  - Box plot: distribution per party (median, Q1/Q3, outliers) for parties ≥3 seats
+  - Scatter plot: diff_count vs diff_percent, Z-Score anomaly highlighting (|Z|>2)
+  - Party filter pills with toggle
+  - Anomaly summary cards + detail table (top 50 by |Z-Score|)
+  - Party summary stats table
+  - i18n: party_analysis section with 30 keys across all 11 locales
+  - Topbar nav link with people icon
+  - Build passes with 0 errors, all 400 constituencies rendered
+- [x] Responsive topbar + hamburger menu + all-page mobile fixes @claude 2026-02-13
+  - TopBar: hamburger menu on mobile (<md), inline nav on desktop (md+)
+  - Brand text hidden on mobile (icon only), shown sm+
+  - Slide-down nav panel with active state, backdrop close, animation
+  - map_client: 2-col grid on mobile, responsive hero text/padding
+  - diff_stats_panel: hidden on mobile
+  - diff_heatmap: legend repositioned for mobile
+  - diffwinratio: D3 margins reduced on mobile, legend mobile-friendly
+  - heatmap_graphs: content padding responsive, legend flex-wrap
+  - party_analysis: responsive title/padding
+  - Build passes with 0 errors
 - [x] Winner diff piechart on root page + hover area list @claude 2026-02-13
   - WinnerDiffPiechart added to root page (map_client.tsx) before hero/metrics
   - Hover on pie slice or legend item shows scrollable list of matching constituencies

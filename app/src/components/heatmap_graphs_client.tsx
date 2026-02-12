@@ -882,7 +882,7 @@ export default function HeatmapGraphsClient({
             <svg ref={bell_ref} className="w-full" />
           </div>
           {/* Legend for mean/median lines */}
-          <div className="flex items-center gap-6 mt-3 px-2">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-6 mt-3 px-2">
             <div className="flex items-center gap-2">
               <div className="w-5 h-0.5 bg-[#22c55e]" style={{ borderTop: "2px dashed #22c55e" }} />
               <span className="text-xs text-text-secondary">

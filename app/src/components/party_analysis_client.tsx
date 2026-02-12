@@ -707,9 +707,9 @@ export default function PartyAnalysisClient({
       </div>
 
       {/* Main content */}
-      <div className="max-w-6xl mx-auto px-6 pt-32 pb-12">
-        <h1 className="text-2xl font-bold text-text-primary mb-2">{t("title")}</h1>
-        <p className="text-sm text-text-secondary leading-relaxed mb-10">{t("subtitle")}</p>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-12">
+        <h1 className="text-xl sm:text-2xl font-bold text-text-primary mb-2">{t("title")}</h1>
+        <p className="text-sm text-text-secondary leading-relaxed mb-6 sm:mb-10">{t("subtitle")}</p>
 
         {/* Section 1: Total Absolute Diff by Party */}
         <div className="mb-8">

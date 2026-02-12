@@ -276,10 +276,11 @@ export default function DiffHeatmapClient({
   const [active_tab, set_active_tab] = useState<DiffMetric>("diff_count");
   const [hovered, set_hovered] = useState<ConstituencyData | null>(null);
   const [mouse_event, set_mouse_event] = useState<MouseEvent | null>(null);
+  const [panel_open, set_panel_open] = useState(true);
   const t = useTranslations("heatmap");
   const locale = useLocale();
 
-  console.log("[diff_heatmap] Rendering with tab:", active_tab);
+  console.log("[diff_heatmap] Rendering with tab:", active_tab, "panel_open:", panel_open);
 
   /**
    * Handle constituency hover from the map.
@@ -372,8 +373,8 @@ export default function DiffHeatmapClient({
         get_label={get_label}
       />
 
-      {/* TopBar aligned left (right side occupied by stats panel) */}
-      <TopBar align="left" />
+      {/* TopBar centered */}
+      <TopBar />
 
       {/* Sub-bar: diff tab toggle (floating below TopBar, also left-aligned) */}
       <div className="absolute top-[4.5rem] left-4 z-[89]">
@@ -423,10 +424,13 @@ export default function DiffHeatmapClient({
       {/* Legend */}
       <DiffLegend active_metric={active_tab} extent={extent} />
 
-      {/* Stats panel (always visible, right side) */}
+      {/* Stats panel (toggleable, right side, drilldown on hover) */}
       <DiffStatsPanel
         features={features}
         diff_lookup={election_lookups.diff}
+        is_open={panel_open}
+        on_toggle={() => set_panel_open((prev) => !prev)}
+        selected_cons={hovered}
       />
     </div>
   );

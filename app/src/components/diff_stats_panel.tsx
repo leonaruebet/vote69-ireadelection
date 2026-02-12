@@ -1,11 +1,13 @@
 "use client";
 
 /**
- * DiffStatsPanel - Regional diff statistics panel.
+ * DiffStatsPanel - Toggleable right-side statistics panel with drilldown.
  *
- * @description 35% right-side panel (always visible) showing mismatch metrics
- *              aggregated nationwide and broken down by Thai ภาค (region).
- *              Shared across root map page and diff-count page.
+ * @description Slide-over panel showing mismatch metrics. Defaults to nationwide
+ *              overview with per-region breakdown. When a constituency is hovered
+ *              or clicked on the map, drills down to show that area's specific
+ *              diff data plus its region's aggregated stats.
+ *              Toggle button allows opening/closing the panel.
  */
 
 import { useMemo } from "react";
@@ -13,6 +15,7 @@ import { useTranslations } from "next-intl";
 import type { GeoJSON } from "geojson";
 import type {
   ConstituencyFeatureProps,
+  ConstituencyData,
   ElectionLookups,
 } from "@/types/constituency";
 import {
@@ -160,33 +163,61 @@ export interface DiffStatsPanelProps {
   features: GeoJSON.Feature<GeoJSON.Geometry, ConstituencyFeatureProps>[];
   /** Diff data lookup. */
   diff_lookup: ElectionLookups["diff"];
+  /** Whether the panel is open. */
+  is_open: boolean;
+  /** Toggle callback for open/close. */
+  on_toggle: () => void;
+  /** Currently hovered/selected constituency (for drilldown). */
+  selected_cons?: ConstituencyData | null;
 }
 
 /**
- * DiffStatsPanel - Always-visible right panel with regional diff statistics.
+ * DiffStatsPanel - Toggleable right panel with regional diff statistics and drilldown.
  *
  * @param features - Constituency features for aggregation.
  * @param diff_lookup - Diff data by cons_id.
- * @returns Stats panel element.
+ * @param is_open - Panel open state.
+ * @param on_toggle - Toggle open/close callback.
+ * @param selected_cons - Hovered/clicked constituency for drilldown view.
+ * @returns Stats panel element with toggle button.
  */
-export default function DiffStatsPanel({ features, diff_lookup }: DiffStatsPanelProps) {
+export default function DiffStatsPanel({
+  features,
+  diff_lookup,
+  is_open,
+  on_toggle,
+  selected_cons,
+}: DiffStatsPanelProps) {
   const t = useTranslations("heatmap");
 
-  console.log("[diff_stats] Rendering stats panel");
+  console.log("[diff_stats] Rendering stats panel, open:", is_open, "selected:", selected_cons?.cons_id);
 
   const nationwide = useMemo(
     () => compute_region_stats(features, diff_lookup),
     [features, diff_lookup]
   );
 
+  const regional_groups = useMemo(
+    () => group_by_region(features),
+    [features]
+  );
+
   const regional = useMemo(() => {
-    const groups = group_by_region(features);
     const result: Record<RegionKey, RegionDiffStats> = {} as Record<RegionKey, RegionDiffStats>;
     for (const key of REGION_ORDER) {
-      result[key] = compute_region_stats(groups[key], diff_lookup);
+      result[key] = compute_region_stats(regional_groups[key], diff_lookup);
     }
     return result;
-  }, [features, diff_lookup]);
+  }, [regional_groups, diff_lookup]);
+
+  /** Determine the region of the selected constituency. */
+  const selected_region: RegionKey | null = useMemo(() => {
+    if (!selected_cons) return null;
+    return PROV_ID_TO_REGION[selected_cons.prov_id] ?? null;
+  }, [selected_cons]);
+
+  /** Get diff data for the selected constituency. */
+  const selected_diff = selected_cons ? diff_lookup[selected_cons.cons_id] : null;
 
   const dot_colors = get_diff_dot_colors();
 
@@ -194,7 +225,7 @@ export default function DiffStatsPanel({ features, diff_lookup }: DiffStatsPanel
    * Render individual metric cards for a stats group.
    *
    * @param stats - Aggregated stats.
-   * @returns Array of metric card elements.
+   * @returns Metric card grid element.
    */
   const render_metric_cards = (stats: RegionDiffStats) => (
     <div className="grid grid-cols-3 gap-2 mb-1">
@@ -242,33 +273,193 @@ export default function DiffStatsPanel({ features, diff_lookup }: DiffStatsPanel
     </div>
   );
 
-  return (
-    <div className="hidden md:block absolute top-0 right-0 h-full w-[35%] min-w-[320px] z-[88]">
-      <div className="h-full bg-bg-primary/95 backdrop-blur-lg border-l border-border-primary shadow-[-4px_0_32px_var(--shadow-tooltip)] overflow-y-auto">
-        <div className="p-4 pt-6">
-          {/* Panel header */}
-          <h2 className="text-base font-bold text-text-primary mb-4">{t("stats_title")}</h2>
+  /**
+   * Render area-level drilldown card for the selected constituency.
+   *
+   * @returns Area detail card or null.
+   */
+  const render_area_drilldown = () => {
+    if (!selected_cons || !selected_diff) return null;
 
-          {/* Nationwide stats */}
-          <div className="text-xs font-semibold text-text-primary mb-2">{t("stats_nationwide")}</div>
-          {render_metric_cards(nationwide)}
+    const sign_count = selected_diff.diff_count > 0 ? "+" : "";
+    const sign_pct = selected_diff.diff_percent > 0 ? "+" : "";
+    const pct_color =
+      selected_diff.diff_percent > 0
+        ? dot_colors.positive
+        : selected_diff.diff_percent < 0
+          ? dot_colors.negative
+          : dot_colors.neutral;
 
-          {/* Per-region stats separated by dividers */}
-          {REGION_ORDER.map((key) => (
-            <div key={key}>
-              {/* ── Region divider ── */}
-              <div className="flex items-center gap-3 my-3">
-                <div className="flex-1 h-px bg-border-primary" />
-                <span className="text-[11px] font-semibold text-text-muted whitespace-nowrap">
-                  {REGION_NAMES[key]}
-                </span>
-                <div className="flex-1 h-px bg-border-primary" />
-              </div>
-              {render_metric_cards(regional[key])}
+    return (
+      <div className="mb-4">
+        {/* Area header */}
+        <div className="flex items-center gap-2 mb-2">
+          <div
+            className="w-2.5 h-2.5 rounded-full shrink-0"
+            style={{ backgroundColor: pct_color }}
+          />
+          <span className="text-sm font-bold text-text-primary">
+            {selected_cons.prov_name_th} เขต {selected_cons.cons_no}
+          </span>
+        </div>
+
+        {/* Area-level diff stats */}
+        <div className="grid grid-cols-2 gap-2 mb-2">
+          <div className="bg-bg-secondary border border-border-primary rounded-lg p-3 text-center">
+            <div className="text-[10px] text-text-muted mb-1">ผลต่าง (จำนวน)</div>
+            <div className="text-lg font-bold" style={{ color: pct_color }}>
+              {sign_count}{selected_diff.diff_count.toLocaleString()}
             </div>
-          ))}
+          </div>
+          <div className="bg-bg-secondary border border-border-primary rounded-lg p-3 text-center">
+            <div className="text-[10px] text-text-muted mb-1">ผลต่าง (%)</div>
+            <div className="text-lg font-bold" style={{ color: pct_color }}>
+              {sign_pct}{selected_diff.diff_percent.toFixed(2)}%
+            </div>
+          </div>
+        </div>
+
+        {/* Turnout breakdown */}
+        <div className="grid grid-cols-2 gap-2">
+          <div className="bg-bg-secondary border border-border-primary rounded-lg p-2.5 text-center">
+            <div className="text-[10px] text-text-muted mb-1">โหวต ส.ส.เขต</div>
+            <div className="text-sm font-bold text-text-primary">
+              {selected_diff.mp_turn_out.toLocaleString()}
+            </div>
+            <div className="text-[10px] text-text-muted">
+              {selected_diff.mp_percent_turn_out.toFixed(2)}%
+            </div>
+          </div>
+          <div className="bg-bg-secondary border border-border-primary rounded-lg p-2.5 text-center">
+            <div className="text-[10px] text-text-muted mb-1">โหวตบัญชีรายชื่อ</div>
+            <div className="text-sm font-bold text-text-primary">
+              {selected_diff.party_list_turn_out.toLocaleString()}
+            </div>
+            <div className="text-[10px] text-text-muted">
+              {selected_diff.party_list_percent_turn_out.toFixed(2)}%
+            </div>
+          </div>
+        </div>
+
+        {/* Area meta */}
+        <div className="mt-2 flex items-center gap-2 text-[10px] text-text-muted">
+          <span>ผู้มีสิทธิ: {selected_cons.registered_voters.toLocaleString()}</span>
+          <span>หน่วยเลือกตั้ง: {selected_cons.vote_stations}</span>
         </div>
       </div>
-    </div>
+    );
+  };
+
+  return (
+    <>
+      {/* Toggle button — always visible on right edge */}
+      <button
+        onClick={on_toggle}
+        className={`hidden md:flex absolute top-4 z-[91] items-center gap-1 bg-bg-secondary/95 backdrop-blur-md border border-border-primary rounded-full px-3 py-2 shadow-[0_4px_24px_var(--shadow-tooltip)] text-xs font-medium transition-all cursor-pointer ${
+          is_open
+            ? "right-[35%] mr-2 text-accent"
+            : "right-4 text-text-secondary hover:text-accent"
+        }`}
+        title={t("stats_toggle")}
+        aria-label={t("stats_toggle")}
+      >
+        {/* Panel icon */}
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="shrink-0"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <line x1="15" y1="3" x2="15" y2="21" />
+        </svg>
+        {t("stats_toggle")}
+        {/* Chevron direction */}
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={`shrink-0 transition-transform ${is_open ? "rotate-0" : "rotate-180"}`}
+        >
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
+
+      {/* Slide-over panel */}
+      <div
+        className={`hidden md:block absolute top-0 right-0 h-full w-[35%] min-w-[320px] z-[88] transition-transform duration-300 ease-in-out ${
+          is_open ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="h-full bg-bg-primary/95 backdrop-blur-lg border-l border-border-primary shadow-[-4px_0_32px_var(--shadow-tooltip)] overflow-y-auto">
+          <div className="p-4 pt-6">
+            {/* Panel header */}
+            <h2 className="text-base font-bold text-text-primary mb-4">{t("stats_title")}</h2>
+
+            {/* Drilldown view when a constituency is selected */}
+            {selected_cons && selected_diff ? (
+              <>
+                {/* Area-level detail */}
+                {render_area_drilldown()}
+
+                {/* Region divider + region stats */}
+                {selected_region && (
+                  <>
+                    <div className="flex items-center gap-3 my-3">
+                      <div className="flex-1 h-px bg-border-primary" />
+                      <span className="text-[11px] font-semibold text-accent whitespace-nowrap">
+                        {REGION_NAMES[selected_region]}
+                      </span>
+                      <div className="flex-1 h-px bg-border-primary" />
+                    </div>
+                    {render_metric_cards(regional[selected_region])}
+                  </>
+                )}
+
+                {/* Nationwide divider + nationwide stats */}
+                <div className="flex items-center gap-3 my-3">
+                  <div className="flex-1 h-px bg-border-primary" />
+                  <span className="text-[11px] font-semibold text-text-muted whitespace-nowrap">
+                    {t("stats_nationwide")}
+                  </span>
+                  <div className="flex-1 h-px bg-border-primary" />
+                </div>
+                {render_metric_cards(nationwide)}
+              </>
+            ) : (
+              <>
+                {/* Default: nationwide + all regions */}
+                <div className="text-xs font-semibold text-text-primary mb-2">{t("stats_nationwide")}</div>
+                {render_metric_cards(nationwide)}
+
+                {/* Per-region stats separated by dividers */}
+                {REGION_ORDER.map((key) => (
+                  <div key={key}>
+                    <div className="flex items-center gap-3 my-3">
+                      <div className="flex-1 h-px bg-border-primary" />
+                      <span className="text-[11px] font-semibold text-text-muted whitespace-nowrap">
+                        {REGION_NAMES[key]}
+                      </span>
+                      <div className="flex-1 h-px bg-border-primary" />
+                    </div>
+                    {render_metric_cards(regional[key])}
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

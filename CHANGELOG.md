@@ -1,5 +1,59 @@
 # CHANGELOG
 
+## [3.7.0] - 2026-02-13
+
+### Added
+- **Party Analysis page** (`/[locale]/party-analysis`) - Anomaly detection dashboard by political party
+  - **Total absolute diff bar chart**: Σ|diff_count| per party in winning constituencies, top 15 parties
+  - **Average diff bar chart**: diverging bar (green=MP higher, red=PL higher) per party, sorted by avg |diff|
+  - **Box plot**: distribution per party (median, Q1/Q3, whiskers, outliers) for parties with ≥3 seats
+  - **Scatter plot**: diff_count vs diff_percent per constituency, color by winning party
+    - Z-Score based anomaly highlighting (|Z| > 2 = anomaly with white border + larger dot)
+    - Normal zone shading (green band for |Z| ≤ 2)
+    - Party filter pills with click-to-toggle
+    - Hover tooltip: area, party, candidate, diff, z-score
+  - **Anomaly summary cards**: per-party anomaly count with rate percentage
+  - **Anomaly detail table**: top 50 anomalous constituencies sorted by |Z-Score|, with party, area, candidate, diff, z-score
+  - **Party summary table**: all parties with seats, total diff, avg diff, avg %, std dev, anomaly count
+- `src/components/party_analysis_client.tsx` - Client component with 4 D3 charts + 2 data tables
+- `src/app/[locale]/party-analysis/page.tsx` - Server component reusing existing data pipeline
+- `party_analysis` i18n section across all 11 locales (th, en, lo, vi, zh, de, ja, ko, fr, sv, id)
+  - 30 translation keys: title, subtitle, chart titles, axis labels, legends, table headers, anomaly labels
+- `topbar.party_analysis` nav link with people icon across all 11 locales
+- Build passes with 0 errors, all 400 constituencies rendered
+
+## [3.6.6] - 2026-02-13
+
+### Added
+- **TopBar: hamburger menu for mobile** (`topbar.tsx`)
+  - Desktop (md+): inline pill nav links (unchanged)
+  - Mobile (<md): compact bar with brand icon + theme/lang + hamburger button
+  - Hamburger opens slide-down panel with full nav links, active state indicators, and settings row
+  - Brand text hidden on mobile (icon only), shown on sm+
+  - `slideDown` CSS keyframe animation for smooth menu open
+  - Close on outside click or backdrop tap
+  - Nav link data extracted into reusable `NavLink[]` array (DRY)
+  - `mobile_nav_class()` helper for mobile menu item styling with active state
+
+### Changed
+- **Responsive layout fixes across all pages**
+  - `map_client.tsx`: metric card grids `grid-cols-3` → `grid-cols-2 sm:grid-cols-3`, hero text `text-5xl` → `text-3xl sm:text-5xl`, padding `px-6` → `px-4 sm:px-6`
+  - `diff_stats_panel.tsx`: panel hidden on mobile (`hidden md:block`), toggle button hidden on mobile
+  - `diff_heatmap_client.tsx`: legend repositioned for mobile (`bottom-4 left-4 sm:bottom-6 sm:left-6`), max-width constrained
+  - `diffwinratio_client.tsx`: D3 chart margins reduced on mobile (left: 90→50, right: 50→16), legend mobile-friendly
+  - `heatmap_graphs_client.tsx`: content padding `pt-32` → `pt-24 sm:pt-32`, bell curve legend uses `flex-wrap`
+  - `party_analysis_client.tsx`: title `text-2xl` → `text-xl sm:text-2xl`, content padding responsive
+  - `globals.css`: added `@keyframes slideDown` for mobile menu animation
+- Build passes with 0 errors, all 5 routes rendered
+
+## [3.6.5] - 2026-02-13
+
+### Added
+- **`party_analysis` i18n section** across all 11 locale files (th, en, lo, vi, zh, de, ja, ko, fr, sv, id)
+  - 37 translation keys: title, subtitle, chart labels (total_diff, avg_diff, box, scatter), anomaly detection, summary table, legend
+  - `topbar.party_analysis` nav key across all 11 locales
+  - Translations: Thai, English, Lao, Vietnamese, Chinese, German, Japanese, Korean, French, Swedish, Indonesian
+
 ## [3.6.4] - 2026-02-13
 
 ### Added
