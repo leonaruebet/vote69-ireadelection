@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "title": "Thailands valkretskarta - ECT valdata",
+    "description": "Interaktiv karta över Thailands 400 valkretsar från Thailands valkommission (ECT)."
+  },
+  "header": {
+    "title_highlight": "Thailand",
+    "title_rest": "400 Constituency Map",
+    "subtitle": "400 Valkretsar - Thailands valkommission (ECT)"
+  },
+  "metrics": {
+    "registered_voters": "Registrerade väljare",
+    "vote_stations": "Vallokaler"
+  },
+  "stats": {
+    "provinces": "Provinser",
+    "constituencies": "Valkretsar",
+    "voters": "Väljare",
+    "stations": "Lokaler"
+  },
+  "tooltip": {
+    "constituency": "Valkrets",
+    "areas": "Områden:",
+    "more_areas": "+{count} fler områden",
+    "mp_winner": "Valkretsrepresentant",
+    "party_list": "Partilista",
+    "turn_out": "Valdeltagande",
+    "referendum": "Folkomröstning",
+    "ref_yes": "Ja",
+    "ref_no": "Nej",
+    "ref_abstain": "Avstå"
+  },
+  "controls": {
+    "color_by": "Visa efter:",
+    "zoom_in": "Zooma in",
+    "zoom_out": "Zooma ut",
+    "reset": "Återställ"
+  },
+  "error": {
+    "failed_to_load": "Kunde inte ladda data",
+    "retry": "Försök igen"
+  },
+  "theme": {
+    "light": "Ljust",
+    "dark": "Mörkt",
+    "toggle": "Byt tema"
+  },
+  "lang": {
+    "label": "Språk"
+  },
+  "topbar": {
+    "brand": "ireadelection69",
+    "share": "Dela",
+    "heatmap": "Värmekarta",
+    "diffwinratio": "Vinstkvot",
+    "graphs": "Analys"
+  },
+  "heatmap": {
+    "title": "Värmekarta för röstdelning",
+    "subtitle": "Skillnad mellan valkretsröster och partilistsröster",
+    "tab_count": "Röstskillnad",
+    "tab_percent": "Procentskillnad",
+    "constituency": "Valkrets",
+    "mp_turnout": "Valkretsdeltagande",
+    "party_list_turnout": "Partilistsdeltagande",
+    "diff": "Skillnad",
+    "legend_less": "Färre VK-röster",
+    "legend_more": "Fler VK-röster",
+    "back_to_map": "Tillbaka till kartan",
+    "stats_toggle": "Statistik",
+    "stats_title": "Röstskillnadsstatistik",
+    "stats_nationwide": "Rikstäckande",
+    "stats_by_region": "Per region",
+    "stats_mismatch": "Avvikande valkretsar",
+    "stats_avg_pct": "Medel %",
+    "stats_max_pct": "Max %",
+    "stats_min_pct": "Min %",
+    "stats_max_count": "Max (antal)",
+    "stats_min_count": "Min (antal)",
+    "stats_total_abs_diff": "Total absolut differens",
+    "stats_total_pct_diff": "Total skillnad (%)",
+    "stats_mode_absolute": "Absolut antal",
+    "stats_mode_percent": "% Skillnad",
+    "stats_intro": "Till världen och de utvecklade länderna — den 8 februari höll Thailand val, och detta är den roliga statistiken från vårt utvecklingsland.",
+    "modal_dismiss": "Visa statistik →"
+  },
+  "graphs": {
+    "title": "Analys av röstskillnader",
+    "subtitle": "Djupanalys: skillnad i valdeltagande mellan valkretssedel och partilista i 400 valkretsar",
+    "pie_title": "Total absolut skillnad per region",
+    "top10_title": "Topp 10 områden med störst skillnad",
+    "bell_title": "Fördelning av skillnader (antal)",
+    "bell_x_label": "Skillnad i valdeltagande (Valkrets − Partilista)",
+    "bell_y_label": "Antal valkretsar",
+    "bell_density": "Densitetskurva",
+    "insights_title": "Viktiga insikter",
+    "insight_total_diff": "Total absolut skillnad",
+    "insight_positive": "Områden med högre valkrets",
+    "insight_negative": "Områden med högre partilista",
+    "insight_zero": "Områden med lika deltagande",
+    "insight_mean": "Medelvärde",
+    "insight_median": "Median",
+    "insight_std_dev": "Standardavvikelse",
+    "insight_highest_region": "Region med störst skillnad",
+    "insight_lowest_region": "Region med minst skillnad",
+    "insight_max": "Maximal skillnad",
+    "insight_min": "Minimal skillnad",
+    "insight_skew": "Fördelningens skevhet",
+    "skew_right": "Högersned (mer valkrets)",
+    "skew_left": "Vänstersned (mer partilista)",
+    "skew_symmetric": "Symmetrisk",
+    "constituency": "Valkrets",
+    "winner_pie_title": "Ledamöter valda i högdifferensområden",
+    "winner_pie_desc": "Antal valda ledamöter i områden där |diff %| överstiger tröskelvärdet, per parti",
+    "winner_pie_threshold": "Differenströskel",
+    "winner_pie_empty": "Inga områden över tröskelvärdet",
+    "winner_pie_areas": "områden",
+    "normalized_pie_title": "Differens per befolkning per region",
+    "normalized_pie_desc": "Kvot av total absolut differens till registrerade väljare per region"
+  },
+  "diffwinratio": {
+    "title": "Vinstkvot vs Röstdelningsavstånd",
+    "x_axis": "Valdeltagandeskillnad |Personval% − Partival%|",
+    "y_axis": "% Röster av deltagande",
+    "bubble_size_label": "Vinnarröster",
+    "constituency": "Valkrets",
+    "party": "Parti",
+    "candidate": "Kandidat",
+    "votes": "Röster",
+    "cons_pct": "Personval deltagande %",
+    "pl_pct": "Partival deltagande %",
+    "diff_pct": "Valdeltagandeskillnad %",
+    "win_pct": "Vinstkvot %"
+  }
+}

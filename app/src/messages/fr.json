@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "title": "Carte des circonscriptions de Thaïlande - ECT",
+    "description": "Carte interactive des 400 circonscriptions électorales de Thaïlande, données de la Commission électorale de Thaïlande (ECT)."
+  },
+  "header": {
+    "title_highlight": "Thailand",
+    "title_rest": "400 Constituency Map",
+    "subtitle": "400 Circonscriptions électorales - Commission électorale de Thaïlande (ECT)"
+  },
+  "metrics": {
+    "registered_voters": "Électeurs inscrits",
+    "vote_stations": "Bureaux de vote"
+  },
+  "stats": {
+    "provinces": "Provinces",
+    "constituencies": "Circonscriptions",
+    "voters": "Électeurs",
+    "stations": "Bureaux"
+  },
+  "tooltip": {
+    "constituency": "Circonscription",
+    "areas": "Zones :",
+    "more_areas": "+{count} autres zones",
+    "mp_winner": "Député de circonscription",
+    "party_list": "Scrutin de liste",
+    "turn_out": "Participation",
+    "referendum": "Référendum",
+    "ref_yes": "Oui",
+    "ref_no": "Non",
+    "ref_abstain": "Abstention"
+  },
+  "controls": {
+    "color_by": "Afficher par :",
+    "zoom_in": "Agrandir",
+    "zoom_out": "Réduire",
+    "reset": "Réinitialiser"
+  },
+  "error": {
+    "failed_to_load": "Échec du chargement des données",
+    "retry": "Réessayer"
+  },
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "toggle": "Changer le thème"
+  },
+  "lang": {
+    "label": "Langue"
+  },
+  "topbar": {
+    "brand": "ireadelection69",
+    "share": "Partager",
+    "heatmap": "Carte thermique",
+    "diffwinratio": "Ratio victoire",
+    "graphs": "Analyse"
+  },
+  "heatmap": {
+    "title": "Carte thermique du vote panache",
+    "subtitle": "Diff. entre député de circonscription et scrutin de liste",
+    "tab_count": "Diff. de voix",
+    "tab_percent": "Diff. en %",
+    "constituency": "Circonscription",
+    "mp_turnout": "Participation scrutin député",
+    "party_list_turnout": "Participation scrutin de liste",
+    "diff": "Différence",
+    "legend_less": "Moins de voix député",
+    "legend_more": "Plus de voix député",
+    "back_to_map": "Retour à la carte",
+    "stats_toggle": "Statistiques",
+    "stats_title": "Statistiques de l'écart des bulletins",
+    "stats_nationwide": "National",
+    "stats_by_region": "Par région",
+    "stats_mismatch": "Zones avec écart",
+    "stats_avg_pct": "Moy. %",
+    "stats_max_pct": "Max %",
+    "stats_min_pct": "Min %",
+    "stats_max_count": "Max (nombre)",
+    "stats_min_count": "Min (nombre)",
+    "stats_total_abs_diff": "Différence absolue totale",
+    "stats_total_pct_diff": "Écart total (%)",
+    "stats_mode_absolute": "Nombre absolu",
+    "stats_mode_percent": "% Écart",
+    "stats_intro": "Au monde et aux nations développées — le 8 février, la Thaïlande a tenu des élections, et voici les statistiques amusantes de notre pays en développement.",
+    "modal_dismiss": "Voir les stats →"
+  },
+  "graphs": {
+    "title": "Analyse graphique des écarts de bulletins",
+    "subtitle": "Analyse approfondie: écart de participation entre scrutin uninominal et liste de parti dans 400 circonscriptions",
+    "pie_title": "Écart absolu total par région",
+    "top10_title": "Top 10 des zones avec le plus grand écart",
+    "bell_title": "Distribution des écarts (nombre)",
+    "bell_x_label": "Écart de participation (Uninominal − Liste de parti)",
+    "bell_y_label": "Nombre de zones",
+    "bell_density": "Courbe de densité",
+    "insights_title": "Points clés",
+    "insight_total_diff": "Écart absolu total",
+    "insight_positive": "Zones avec plus d'uninominal",
+    "insight_negative": "Zones avec plus de liste",
+    "insight_zero": "Zones avec participation égale",
+    "insight_mean": "Moyenne",
+    "insight_median": "Médiane",
+    "insight_std_dev": "Écart-type",
+    "insight_highest_region": "Région avec le plus grand écart",
+    "insight_lowest_region": "Région avec le plus petit écart",
+    "insight_max": "Écart maximum",
+    "insight_min": "Écart minimum",
+    "insight_skew": "Asymétrie de la distribution",
+    "skew_right": "Asymétrie droite (plus uninominal)",
+    "skew_left": "Asymétrie gauche (plus liste)",
+    "skew_symmetric": "Symétrique",
+    "constituency": "Circonscription",
+    "winner_pie_title": "Députés élus dans les zones à forte différence",
+    "winner_pie_desc": "Nombre de députés élus dans les zones où |diff %| dépasse le seuil, par parti",
+    "winner_pie_threshold": "Seuil de différence",
+    "winner_pie_empty": "Aucune zone au-dessus du seuil",
+    "winner_pie_areas": "zones",
+    "normalized_pie_title": "Différence par population par région",
+    "normalized_pie_desc": "Ratio de la différence absolue totale sur les électeurs inscrits par région"
+  },
+  "diffwinratio": {
+    "title": "Ratio victoire vs Écart de panachage",
+    "x_axis": "Écart participation |Scrutin direct% − Liste%|",
+    "y_axis": "% Voix sur participation",
+    "bubble_size_label": "Voix du vainqueur",
+    "constituency": "Circonscription",
+    "party": "Parti",
+    "candidate": "Candidat",
+    "votes": "Voix",
+    "cons_pct": "Participation directe %",
+    "pl_pct": "Participation liste %",
+    "diff_pct": "Écart participation %",
+    "win_pct": "Ratio victoire %"
+  }
+}

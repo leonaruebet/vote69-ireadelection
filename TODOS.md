@@ -1,0 +1,106 @@
+# Thailand Constituency Map Visualization
+
+## Done ✓
+- [x] Winner diff piechart on root page + hover area list @claude 2026-02-13
+  - WinnerDiffPiechart added to root page (map_client.tsx) before hero/metrics
+  - Hover on pie slice or legend item shows scrollable list of matching constituencies
+  - Extended WinnerDiffItem with optional prov_name_th, cons_no, cons_id fields
+  - Both root page and heatmap dashboard pass full area info
+  - Build passes with 0 errors
+- [x] Winner party pie chart + Normalized regional pie chart @claude 2026-02-13
+  - winner_diff_piechart.tsx: MPs winning in areas where |diff%| > threshold (default 2.5%, editable)
+  - region_normalized_piechart.tsx: Σ|diff| / population per region (normalized donut)
+  - Both integrated as Row 2 in /[locale]/heatmap dashboard
+  - 7 new i18n keys across all 11 locales
+  - Build passes with 0 errors
+- [x] DiffWinRatio: X axis total area diff + party filter + linear scale @claude 2026-02-13
+  - X axis changed to |mp_turn_out − party_list_turn_out| (total area diff, linear scale)
+  - Removed logarithmic scale per user request
+  - Tooltip shows actual vote counts (not %) for MP and party list turnout
+  - Added party filter pills (multi-select, scrollable horizontal bar)
+  - Build passes with 0 errors
+- [x] Heatmap Graphs visualization page @claude 2026-02-13
+  - Route: /[locale]/heatmap
+  - Donut pie chart: ผลต่างสะสมรวม by 6 Thai regions with hover effects
+  - Top 10 areas: highest |diff_count| with area + winner, scrollable
+  - Bell curve: D3 histogram + KDE density overlay, mean/median annotations
+  - Key insights: 12 stat cards (total abs diff, positive/negative counts, mean, median, std dev, etc.)
+  - Region colors: North=green, NE=blue, Central=orange, East=purple, West=yellow, South=red
+  - i18n: graphs section with 25 keys across all 11 locales
+  - Topbar nav link with bar-chart icon
+  - Build passes with 0 errors, all 400 constituencies rendered
+- [x] Root page: replace map with inline regional stats @claude 2026-02-12
+  - Removed ThailandMap, MapTooltip, MapLegend, StatsBar from map_client.tsx
+  - Stats rendered as full-page inline content (not slide-over)
+  - Centered max-w-5xl layout: nationwide + 6 regions with dividers
+  - 3-column metric card grid per section
+  - Build passes with 0 errors
+- [x] Diff percent labels on map areas @claude 2026-02-12
+  - Added `get_label` optional prop to `ThailandMap` (backward-compatible)
+  - SVG `<text>` elements at polygon centroids with stroke outline for readability
+  - `DiffHeatmapClient` passes formatted `diff_percent` (e.g. `+0.4%`, `-3.1%`) as labels
+  - Theme-aware CSS vars: `--map-label`, `--map-label-stroke`
+  - Labels update on metric/theme change
+  - Build passes with 0 errors, all 400 constituencies labeled
+- [x] DiffWinRatio scatter-bubble chart page @claude 2026-02-12
+  - Route: /[locale]/diffwinratio
+  - D3 scatter-bubble: X=split-ticket gap (abs), Y=vote% of turnout, size=vote_count, color=party
+  - X axis: |winner cons vote % − party's party-list vote %| (absolute value)
+  - Tooltip: province, เขต, party, candidate, votes, win%, cons%, pl%, gap%
+  - Added `party_list_vote_percent` to ConsWinnerData + build_winner_lookup
+  - Size legend, back link sub-bar, responsive resize
+  - i18n: diffwinratio section with cons_pct, pl_pct keys across all 11 locales
+  - Topbar link with scatter icon
+  - Build passes with 0 errors, all 400 constituencies rendered
+- [x] Diff Heatmap Page refactored to diff-count @claude 2026-02-12
+  - Route renamed: /[locale]/heatmap → /[locale]/diff-count
+  - Data: constituency-level net turnout (turn_out - party_list_turn_out), not candidate-level
+  - UI: standard TopBar + separate floating sub-bar for diff tab toggle
+  - Thai topbar label: "แผนที่ความร้อน" → "ความต่างบัตร2แบบ"
+  - Build passes with 0 errors, both routes registered
+- [x] Diff Heatmap Page (ส.ส. เขต vs บัญชีรายชื่อ) @claude 2026-02-12
+  - Types: ConsDiffData, DiffMetric, updated ElectionLookups with diff field
+  - Data: build_diff_lookup() computes MP vs party list diff per constituency
+  - ThailandMap: added optional get_fill_color prop (backward-compatible)
+  - Server page: src/app/[locale]/heatmap/page.tsx reuses existing data pipeline
+  - Client: DiffHeatmapClient with tab toggle, D3 diverging scale, DiffTooltip, DiffLegend
+  - i18n: heatmap section added to all 11 locale files
+  - Build passes with 0 errors, all 400 constituencies have diff data
+- [x] Topbar redesign + orange color scheme @claude 2026-02-12
+  - Replaced full-width header with floating pill-shaped toolbar (topbar.tsx)
+  - Brand button, metric icon toggles, share link, separator, theme/lang, save
+  - All accent colors changed from indigo (#6366f1) to orange (#f97316)
+  - Full-screen map layout with floating overlays
+  - i18n: added `topbar` keys to all 11 locales
+  - Build passes with 0 errors
+
+## Done (Previous)
+- [x] Create Next.js app with D3.js Thailand map visualization @claude 2026-02-12
+  - Load GeoJSON (77 provinces incl. Bueng Kan)
+  - Load ECT constituency data
+  - Build province ID-to-name mapping
+  - Aggregate constituency data by province
+  - Render choropleth map
+  - Add tooltip, zoom, legend, metric selector
+  - Modular components + TypeScript types
+- [x] Add election results to hover tooltip @claude 2026-02-12
+  - Types: 12 new interfaces (raw API + resolved lookup types)
+  - Constants: 4 new ECT API URLs (stats_cons, stats_referendum, info_mp_candidate, info_party_overview)
+  - Data layer: generic fetch_json, 4 fetchers, 3 builders, 1 orchestrator (build_election_lookups)
+  - Page: parallel fetch of 6 APIs (2 existing + 4 new), resilient error handling
+  - MapClient: election_lookups prop threading
+  - Tooltip: 3 new sections (winner, party list, referendum) with i18n across 11 locales
+- [x] i18n + Multi-language + Noto Sans Thai + Light/Dark Mode @claude 2026-02-12
+  - Installed next-intl for Next.js App Router i18n
+  - 11 locales: th, en, lo, vi, zh, de, ja, ko, fr, sv, id
+  - 11 message JSON files with ~30 translatable keys each
+  - i18n config (config.ts, routing.ts, request.ts) + middleware.ts
+  - Locale-based routing: [locale]/layout.tsx + [locale]/page.tsx
+  - Noto Sans Thai + Noto Sans fonts via next/font/google
+  - Light/dark mode: ThemeProvider + ThemeToggle + CSS variables
+  - Tailwind v4 class-based dark mode via @variant dark
+  - Language switcher dropdown with flag + native name
+  - All components updated to use useTranslations() + semantic CSS classes
+  - MetricConfig simplified: label/label_th → message_key
+  - MAP_CONFIG colors moved to CSS variables (get_map_colors())
+  - Build passes with 0 errors

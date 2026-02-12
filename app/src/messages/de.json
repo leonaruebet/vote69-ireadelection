@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "title": "Thailand Wahlkreiskarte - ECT Wahldaten",
+    "description": "Interaktive Karte der 400 Wahlkreise Thailands von der Wahlkommission Thailands (ECT)."
+  },
+  "header": {
+    "title_highlight": "Thailand",
+    "title_rest": "400 Constituency Map",
+    "subtitle": "400 Wahlkreise - Wahlkommission Thailands (ECT)"
+  },
+  "metrics": {
+    "registered_voters": "Registrierte Wähler",
+    "vote_stations": "Wahllokale"
+  },
+  "stats": {
+    "provinces": "Provinzen",
+    "constituencies": "Wahlkreise",
+    "voters": "Wähler",
+    "stations": "Lokale"
+  },
+  "tooltip": {
+    "constituency": "Wahlkreis",
+    "areas": "Gebiete:",
+    "more_areas": "+{count} weitere Gebiete",
+    "mp_winner": "Wahlkreisabgeordneter",
+    "party_list": "Parteiliste",
+    "turn_out": "Wahlbeteiligung",
+    "referendum": "Referendum",
+    "ref_yes": "Ja",
+    "ref_no": "Nein",
+    "ref_abstain": "Enthaltung"
+  },
+  "controls": {
+    "color_by": "Anzeigen nach:",
+    "zoom_in": "Vergrößern",
+    "zoom_out": "Verkleinern",
+    "reset": "Zurücksetzen"
+  },
+  "error": {
+    "failed_to_load": "Daten konnten nicht geladen werden",
+    "retry": "Erneut versuchen"
+  },
+  "theme": {
+    "light": "Hell",
+    "dark": "Dunkel",
+    "toggle": "Design wechseln"
+  },
+  "lang": {
+    "label": "Sprache"
+  },
+  "topbar": {
+    "brand": "ireadelection69",
+    "share": "Teilen",
+    "heatmap": "Heatmap",
+    "diffwinratio": "Gewinnquote",
+    "graphs": "Analyse"
+  },
+  "heatmap": {
+    "title": "Stimmensplitting-Heatmap",
+    "subtitle": "Differenz Wahlkreis- vs. Listenstimmen",
+    "tab_count": "Stimmendifferenz",
+    "tab_percent": "Prozentdifferenz",
+    "constituency": "Wahlkreis",
+    "mp_turnout": "Wahlkreis-Beteiligung",
+    "party_list_turnout": "Listen-Beteiligung",
+    "diff": "Differenz",
+    "legend_less": "Weniger WK",
+    "legend_more": "Mehr WK",
+    "back_to_map": "Zurück zur Karte",
+    "stats_toggle": "Statistik",
+    "stats_title": "Stimmzettel-Differenzstatistik",
+    "stats_nationwide": "Landesweit",
+    "stats_by_region": "Nach Region",
+    "stats_mismatch": "Abweichende Bezirke",
+    "stats_avg_pct": "Durchschn. %",
+    "stats_max_pct": "Max %",
+    "stats_min_pct": "Min %",
+    "stats_max_count": "Max (Anzahl)",
+    "stats_min_count": "Min (Anzahl)",
+    "stats_total_abs_diff": "Absolute Gesamtdifferenz",
+    "stats_total_pct_diff": "Gesamtabw. (%)",
+    "stats_mode_absolute": "Absolute Anzahl",
+    "stats_mode_percent": "% Differenz",
+    "stats_intro": "An die Welt und die entwickelten Nationen — am 8. Februar fanden in Thailand Wahlen statt, und dies sind die amüsanten Statistiken aus unserem Entwicklungsland.",
+    "modal_dismiss": "Statistiken ansehen →"
+  },
+  "graphs": {
+    "title": "Analyse der Stimmzettel-Differenz",
+    "subtitle": "Tiefenanalyse: Wahlbeteiligungsdifferenz zwischen Direktmandat und Parteiliste in 400 Wahlkreisen",
+    "pie_title": "Gesamte absolute Differenz nach Region",
+    "top10_title": "Top 10 Gebiete mit höchster Differenz",
+    "bell_title": "Verteilung der Differenz (Anzahl)",
+    "bell_x_label": "Wahlbeteiligungsdifferenz (Direktwahl − Parteiliste)",
+    "bell_y_label": "Anzahl Wahlkreise",
+    "bell_density": "Dichtekurve",
+    "insights_title": "Wichtige Erkenntnisse",
+    "insight_total_diff": "Gesamte absolute Differenz",
+    "insight_positive": "Gebiete mit höherer Direktwahl",
+    "insight_negative": "Gebiete mit höherer Parteiliste",
+    "insight_zero": "Gebiete mit gleicher Beteiligung",
+    "insight_mean": "Mittelwert",
+    "insight_median": "Median",
+    "insight_std_dev": "Standardabweichung",
+    "insight_highest_region": "Region mit höchster Differenz",
+    "insight_lowest_region": "Region mit niedrigster Differenz",
+    "insight_max": "Maximale Differenz",
+    "insight_min": "Minimale Differenz",
+    "insight_skew": "Schiefe der Verteilung",
+    "skew_right": "Rechtsschiefe (mehr Direkt)",
+    "skew_left": "Linksschiefe (mehr Partei)",
+    "skew_symmetric": "Symmetrisch",
+    "constituency": "Wahlkreis",
+    "winner_pie_title": "Abgeordnete in Hochdifferenz-Gebieten",
+    "winner_pie_desc": "Anzahl gewählter Abgeordneter in Gebieten mit |Diff %| über Schwellenwert, nach Partei",
+    "winner_pie_threshold": "Differenz-Schwelle",
+    "winner_pie_empty": "Keine Gebiete über Schwellenwert",
+    "winner_pie_areas": "Gebiete",
+    "normalized_pie_title": "Differenz pro Bevölkerung nach Region",
+    "normalized_pie_desc": "Verhältnis der absoluten Gesamtdifferenz zu registrierten Wählern nach Region"
+  },
+  "diffwinratio": {
+    "title": "Gewinnquote vs Stimmensplitting",
+    "x_axis": "Wahlbeteiligungsdiff. |Direkt − Liste| (Anzahl, log)",
+    "y_axis": "% Stimmen der Beteiligung",
+    "bubble_size_label": "Gewinnerstimmen",
+    "constituency": "Wahlkreis",
+    "party": "Partei",
+    "candidate": "Kandidat",
+    "votes": "Stimmen",
+    "cons_pct": "Direktwahl-Stimmen",
+    "pl_pct": "Listenwahl-Stimmen",
+    "diff_pct": "Differenz",
+    "win_pct": "Gewinnquote %"
+  }
+}

@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* ── Tailwind v4: class-based dark mode ── */
+@variant dark (&:where(.dark, .dark *));
+
+/* ── Dark theme (default) ── */
+.dark {
+  --background: #0f1117;
+  --foreground: #e8eaed;
+  --bg-primary: #0f1117;
+  --bg-secondary: #1a1d2e;
+  --bg-tertiary: #222640;
+  --text-primary: #e8eaed;
+  --text-secondary: #9aa0b4;
+  --text-muted: #6b7280;
+  --border-primary: #2d3154;
+  --border-hover: #f97316;
+  --accent: #f97316;
+  --accent-light: #fb923c;
+  --hover-stroke: #fbbf24;
+  --map-null: #1a1d2e;
+  --map-stroke: #2d3154;
+  --map-label: #ffffff;
+  --map-label-stroke: #000000;
+  --scrollbar-track: #1a1d2e;
+  --scrollbar-thumb: #2d3154;
+  --scrollbar-hover: #f97316;
+  --shadow-tooltip: rgba(0, 0, 0, 0.45);
+}
+
+/* ── Light theme ── */
+.light {
+  --background: #f8f9fb;
+  --foreground: #1a1d2e;
+  --bg-primary: #f8f9fb;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f0f1f5;
+  --text-primary: #1a1d2e;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --border-primary: #d1d5db;
+  --border-hover: #f97316;
+  --accent: #f97316;
+  --accent-light: #ea580c;
+  --hover-stroke: #f59e0b;
+  --map-null: #e5e7eb;
+  --map-stroke: #9ca3af;
+  --map-label: #1a1d2e;
+  --map-label-stroke: #ffffff;
+  --scrollbar-track: #f0f1f5;
+  --scrollbar-thumb: #d1d5db;
+  --scrollbar-hover: #f97316;
+  --shadow-tooltip: rgba(0, 0, 0, 0.12);
+}
+
+/* ── Tailwind theme tokens ── */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border-primary: var(--border-primary);
+  --color-border-hover: var(--border-hover);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-hover-stroke: var(--hover-stroke);
+  --color-map-null: var(--map-null);
+  --color-map-stroke: var(--map-stroke);
+  --color-shadow-tooltip: var(--shadow-tooltip);
+  --font-thai: var(--font-noto-thai);
+  --font-sans: var(--font-noto-sans);
+}
+
+:root {
+  font-family: var(--font-thai), var(--font-sans), "Noto Sans Thai",
+    "Noto Sans", Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: inherit;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-hover);
+}

@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "title": "Peta Daerah Pemilihan Thailand - Data Pemilu ECT",
+    "description": "Peta interaktif 400 daerah pemilihan Thailand dari Komisi Pemilihan Umum Thailand (ECT)."
+  },
+  "header": {
+    "title_highlight": "Thailand",
+    "title_rest": "400 Constituency Map",
+    "subtitle": "400 Daerah Pemilihan - Komisi Pemilihan Umum Thailand (ECT)"
+  },
+  "metrics": {
+    "registered_voters": "Pemilih Terdaftar",
+    "vote_stations": "TPS"
+  },
+  "stats": {
+    "provinces": "Provinsi",
+    "constituencies": "Daerah Pemilihan",
+    "voters": "Pemilih",
+    "stations": "TPS"
+  },
+  "tooltip": {
+    "constituency": "Daerah Pemilihan",
+    "areas": "Wilayah:",
+    "more_areas": "+{count} wilayah lainnya",
+    "mp_winner": "Anggota DPR Dapil",
+    "party_list": "Daftar Partai",
+    "turn_out": "Partisipasi",
+    "referendum": "Referendum",
+    "ref_yes": "Setuju",
+    "ref_no": "Tidak setuju",
+    "ref_abstain": "Abstain"
+  },
+  "controls": {
+    "color_by": "Tampilkan:",
+    "zoom_in": "Perbesar",
+    "zoom_out": "Perkecil",
+    "reset": "Atur ulang"
+  },
+  "error": {
+    "failed_to_load": "Gagal memuat data",
+    "retry": "Coba lagi"
+  },
+  "theme": {
+    "light": "Terang",
+    "dark": "Gelap",
+    "toggle": "Ubah tema"
+  },
+  "lang": {
+    "label": "Bahasa"
+  },
+  "topbar": {
+    "brand": "ireadelection69",
+    "share": "Bagikan",
+    "heatmap": "Peta panas",
+    "diffwinratio": "Rasio kemenangan",
+    "graphs": "Analisis"
+  },
+  "heatmap": {
+    "title": "Peta Panas Pemungutan Suara Terpisah",
+    "subtitle": "Selisih suara anggota DPR dapil vs daftar partai",
+    "tab_count": "Selisih Suara",
+    "tab_percent": "Selisih Persen",
+    "constituency": "Daerah Pemilihan",
+    "mp_turnout": "Partisipasi Pemilih DPR",
+    "party_list_turnout": "Partisipasi Daftar Partai",
+    "diff": "Selisih",
+    "legend_less": "Lebih sedikit DPR",
+    "legend_more": "Lebih banyak DPR",
+    "back_to_map": "Kembali ke peta",
+    "stats_toggle": "Statistik",
+    "stats_title": "Statistik Selisih Suara",
+    "stats_nationwide": "Nasional",
+    "stats_by_region": "Per Wilayah",
+    "stats_mismatch": "Daerah dengan selisih",
+    "stats_avg_pct": "Rata-rata %",
+    "stats_max_pct": "Maks %",
+    "stats_min_pct": "Min %",
+    "stats_max_count": "Maks (jumlah)",
+    "stats_min_count": "Min (jumlah)",
+    "stats_total_abs_diff": "Total selisih absolut",
+    "stats_total_pct_diff": "Total selisih (%)",
+    "stats_mode_absolute": "Jumlah absolut",
+    "stats_mode_percent": "% Selisih",
+    "stats_intro": "Kepada dunia dan negara maju — pada 8 Februari, Thailand mengadakan pemilu, dan ini adalah statistik lucu dari negara berkembang kami.",
+    "modal_dismiss": "Lihat statistik →"
+  },
+  "graphs": {
+    "title": "Grafik Analisis Selisih Suara",
+    "subtitle": "Analisis mendalam: selisih pemilih antara surat suara DPR dan daftar partai di 400 daerah pemilihan",
+    "pie_title": "Total Selisih Absolut per Wilayah",
+    "top10_title": "10 Daerah dengan Selisih Tertinggi",
+    "bell_title": "Distribusi Selisih (Jumlah)",
+    "bell_x_label": "Selisih Pemilih (DPR − Daftar Partai)",
+    "bell_y_label": "Jumlah Daerah",
+    "bell_density": "Kurva Densitas",
+    "insights_title": "Temuan Utama",
+    "insight_total_diff": "Total Selisih Absolut",
+    "insight_positive": "Daerah dengan DPR Lebih Tinggi",
+    "insight_negative": "Daerah dengan Daftar Lebih Tinggi",
+    "insight_zero": "Daerah Sama",
+    "insight_mean": "Rata-rata",
+    "insight_median": "Median",
+    "insight_std_dev": "Simpangan Baku",
+    "insight_highest_region": "Wilayah Selisih Tertinggi",
+    "insight_lowest_region": "Wilayah Selisih Terendah",
+    "insight_max": "Selisih Maksimum",
+    "insight_min": "Selisih Minimum",
+    "insight_skew": "Kemiringan Distribusi",
+    "skew_right": "Miring kanan (DPR lebih)",
+    "skew_left": "Miring kiri (daftar lebih)",
+    "skew_symmetric": "Simetris",
+    "constituency": "Daerah",
+    "winner_pie_title": "Anggota DPR Terpilih di Daerah Selisih Tinggi",
+    "winner_pie_desc": "Jumlah anggota DPR terpilih di daerah dengan |selisih %| melebihi ambang batas, per partai",
+    "winner_pie_threshold": "Ambang Selisih",
+    "winner_pie_empty": "Tidak ada daerah di atas ambang batas",
+    "winner_pie_areas": "daerah",
+    "normalized_pie_title": "Selisih per Populasi per Wilayah",
+    "normalized_pie_desc": "Rasio total selisih absolut terhadap pemilih terdaftar per wilayah"
+  },
+  "diffwinratio": {
+    "title": "Rasio kemenangan vs Jarak suara terpisah",
+    "x_axis": "Selisih Partisipasi |Pemilu Dapil% − Pemilu Daftar%|",
+    "y_axis": "% Suara dari partisipasi",
+    "bubble_size_label": "Suara pemenang",
+    "constituency": "Daerah Pemilihan",
+    "party": "Partai",
+    "candidate": "Kandidat",
+    "votes": "Suara",
+    "cons_pct": "Partisipasi Dapil %",
+    "pl_pct": "Partisipasi Daftar %",
+    "diff_pct": "Selisih Partisipasi %",
+    "win_pct": "Rasio kemenangan %"
+  }
+}

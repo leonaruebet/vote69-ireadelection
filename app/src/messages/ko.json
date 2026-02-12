@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "title": "태국 선거구 지도 - ECT 선거 데이터",
+    "description": "태국 선거관리위원회(ECT)의 데이터를 활용한 태국 400개 선거구 인터랙티브 지도."
+  },
+  "header": {
+    "title_highlight": "Thailand",
+    "title_rest": "400 Constituency Map",
+    "subtitle": "400 선거구 지도 - 태국 선거관리위원회 (ECT)"
+  },
+  "metrics": {
+    "registered_voters": "등록 유권자",
+    "vote_stations": "투표소"
+  },
+  "stats": {
+    "provinces": "지방",
+    "constituencies": "선거구",
+    "voters": "유권자",
+    "stations": "투표소"
+  },
+  "tooltip": {
+    "constituency": "선거구",
+    "areas": "지역:",
+    "more_areas": "+{count}개 추가 지역",
+    "mp_winner": "지역구 의원",
+    "party_list": "정당 명부",
+    "turn_out": "투표율",
+    "referendum": "국민투표",
+    "ref_yes": "찬성",
+    "ref_no": "반대",
+    "ref_abstain": "기권"
+  },
+  "controls": {
+    "color_by": "표시 기준:",
+    "zoom_in": "확대",
+    "zoom_out": "축소",
+    "reset": "초기화"
+  },
+  "error": {
+    "failed_to_load": "데이터를 불러올 수 없습니다",
+    "retry": "다시 시도"
+  },
+  "theme": {
+    "light": "라이트",
+    "dark": "다크",
+    "toggle": "테마 전환"
+  },
+  "lang": {
+    "label": "언어"
+  },
+  "topbar": {
+    "brand": "ireadelection69",
+    "share": "공유",
+    "heatmap": "히트맵",
+    "diffwinratio": "당선 비율",
+    "graphs": "분석"
+  },
+  "heatmap": {
+    "title": "분할 투표 히트맵",
+    "subtitle": "지역구 의원 vs 정당 명부 득표 차이",
+    "tab_count": "득표수 차이",
+    "tab_percent": "퍼센트 차이",
+    "constituency": "선거구",
+    "mp_turnout": "지역구 투표자 수",
+    "party_list_turnout": "정당 명부 투표자 수",
+    "diff": "차이",
+    "legend_less": "의원 득표 적음",
+    "legend_more": "의원 득표 많음",
+    "back_to_map": "지도로 돌아가기",
+    "stats_toggle": "통계",
+    "stats_title": "투표 차이 통계",
+    "stats_nationwide": "전국",
+    "stats_by_region": "지역별",
+    "stats_mismatch": "차이 있는 선거구",
+    "stats_avg_pct": "평균 %",
+    "stats_max_pct": "최대 %",
+    "stats_min_pct": "최소 %",
+    "stats_max_count": "최대 (수)",
+    "stats_min_count": "최소 (수)",
+    "stats_total_abs_diff": "절대 차이 합계",
+    "stats_total_pct_diff": "총 차이 (%)",
+    "stats_mode_absolute": "절대 수량",
+    "stats_mode_percent": "% 차이",
+    "stats_intro": "세계와 선진국에게 — 2월 8일 태국에서 선거가 있었고, 이것은 우리 개발도상국에서 일어난 재미있는 통계입니다.",
+    "modal_dismiss": "통계 보기 →"
+  },
+  "graphs": {
+    "title": "투표 차이 분석 그래프",
+    "subtitle": "심층 분석: 400개 선거구의 지역구 투표와 비례대표 투표 차이",
+    "pie_title": "지역별 누적 절대 차이",
+    "top10_title": "차이가 가장 큰 상위 10개 지역",
+    "bell_title": "차이 분포 (수치)",
+    "bell_x_label": "투표율 차이 (지역구 − 비례대표)",
+    "bell_y_label": "선거구 수",
+    "bell_density": "밀도 곡선",
+    "insights_title": "주요 인사이트",
+    "insight_total_diff": "누적 절대 차이",
+    "insight_positive": "지역구가 많은 지역",
+    "insight_negative": "비례대표가 많은 지역",
+    "insight_zero": "동일한 지역",
+    "insight_mean": "평균",
+    "insight_median": "중앙값",
+    "insight_std_dev": "표준편차",
+    "insight_highest_region": "최대 차이 지역",
+    "insight_lowest_region": "최소 차이 지역",
+    "insight_max": "최대 차이",
+    "insight_min": "최소 차이",
+    "insight_skew": "분포 왜도",
+    "skew_right": "오른쪽 치우침 (지역구 많음)",
+    "skew_left": "왼쪽 치우침 (비례 많음)",
+    "skew_symmetric": "대칭",
+    "constituency": "선거구",
+    "winner_pie_title": "높은 차이 선거구 당선 의원",
+    "winner_pie_desc": "|차이 %|이 임계값을 초과하는 선거구의 당선 의원 수 (정당별)",
+    "winner_pie_threshold": "차이 임계값",
+    "winner_pie_empty": "임계값을 초과하는 선거구 없음",
+    "winner_pie_areas": "선거구",
+    "normalized_pie_title": "지역별 인구당 차이",
+    "normalized_pie_desc": "지역별 총 절대 차이 대 등록 유권자 비율"
+  },
+  "diffwinratio": {
+    "title": "당선 비율 vs 분할투표 차이",
+    "x_axis": "투표 차이 |지역구 − 비례| (인원, log)",
+    "y_axis": "% 투표자 대비 득표",
+    "bubble_size_label": "당선자 득표수",
+    "constituency": "선거구",
+    "party": "정당",
+    "candidate": "후보",
+    "votes": "득표",
+    "cons_pct": "지역구 투표수",
+    "pl_pct": "비례 투표수",
+    "diff_pct": "차이",
+    "win_pct": "당선 비율 %"
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "title": "タイ選挙区地図 - ECT選挙データ",
+    "description": "タイ選挙管理委員会（ECT）のデータによるタイ400選挙区のインタラクティブマップ。"
+  },
+  "header": {
+    "title_highlight": "Thailand",
+    "title_rest": "400 Constituency Map",
+    "subtitle": "400選挙区マップ - タイ選挙管理委員会（ECT）"
+  },
+  "metrics": {
+    "registered_voters": "有権者数",
+    "vote_stations": "投票所"
+  },
+  "stats": {
+    "provinces": "県",
+    "constituencies": "選挙区",
+    "voters": "有権者",
+    "stations": "投票所"
+  },
+  "tooltip": {
+    "constituency": "選挙区",
+    "areas": "地域：",
+    "more_areas": "+{count} 他の地域",
+    "mp_winner": "選挙区議員",
+    "party_list": "比例代表",
+    "turn_out": "投票率",
+    "referendum": "国民投票",
+    "ref_yes": "賛成",
+    "ref_no": "反対",
+    "ref_abstain": "棄権"
+  },
+  "controls": {
+    "color_by": "表示基準：",
+    "zoom_in": "拡大",
+    "zoom_out": "縮小",
+    "reset": "リセット"
+  },
+  "error": {
+    "failed_to_load": "データの読み込みに失敗しました",
+    "retry": "再試行"
+  },
+  "theme": {
+    "light": "ライト",
+    "dark": "ダーク",
+    "toggle": "テーマ切替"
+  },
+  "lang": {
+    "label": "言語"
+  },
+  "topbar": {
+    "brand": "ireadelection69",
+    "share": "共有",
+    "heatmap": "ヒートマップ",
+    "diffwinratio": "勝率",
+    "graphs": "分析"
+  },
+  "heatmap": {
+    "title": "分割投票ヒートマップ",
+    "subtitle": "選挙区議員と比例代表の得票差",
+    "tab_count": "票数差",
+    "tab_percent": "パーセント差",
+    "constituency": "選挙区",
+    "mp_turnout": "選挙区投票者数",
+    "party_list_turnout": "比例代表投票者数",
+    "diff": "差",
+    "legend_less": "議員票少",
+    "legend_more": "議員票多",
+    "back_to_map": "地図に戻る",
+    "stats_toggle": "統計",
+    "stats_title": "投票差異統計",
+    "stats_nationwide": "全国",
+    "stats_by_region": "地域別",
+    "stats_mismatch": "差異のある選挙区",
+    "stats_avg_pct": "平均 %",
+    "stats_max_pct": "最大 %",
+    "stats_min_pct": "最小 %",
+    "stats_max_count": "最大（票数）",
+    "stats_min_count": "最小（票数）",
+    "stats_total_abs_diff": "絶対差の合計",
+    "stats_total_pct_diff": "合計差異（%）",
+    "stats_mode_absolute": "絶対数",
+    "stats_mode_percent": "% 差異",
+    "stats_intro": "世界と先進国の皆様へ——2月8日、タイで選挙が行われました。これは私たちの発展途上国で起きた面白い統計です。",
+    "modal_dismiss": "統計を見る →"
+  },
+  "graphs": {
+    "title": "投票差分析グラフ",
+    "subtitle": "詳細分析：400選挙区における小選挙区投票と比例代表投票の投票率差",
+    "pie_title": "地域別累計絶対差",
+    "top10_title": "差が最も大きい上位10地域",
+    "bell_title": "差の分布（数値）",
+    "bell_x_label": "投票率差（小選挙区 − 比例代表）",
+    "bell_y_label": "選挙区数",
+    "bell_density": "密度曲線",
+    "insights_title": "主要な知見",
+    "insight_total_diff": "累計絶対差",
+    "insight_positive": "小選挙区が多い地域",
+    "insight_negative": "比例代表が多い地域",
+    "insight_zero": "同数の地域",
+    "insight_mean": "平均値",
+    "insight_median": "中央値",
+    "insight_std_dev": "標準偏差",
+    "insight_highest_region": "最大差の地域",
+    "insight_lowest_region": "最小差の地域",
+    "insight_max": "最大差",
+    "insight_min": "最小差",
+    "insight_skew": "分布の歪度",
+    "skew_right": "右偏り（小選挙区多い）",
+    "skew_left": "左偏り（比例多い）",
+    "skew_symmetric": "対称",
+    "constituency": "選挙区",
+    "winner_pie_title": "差異の大きい選挙区の当選議員",
+    "winner_pie_desc": "|差異%|が閾値を超える選挙区の当選議員数（政党別）",
+    "winner_pie_threshold": "差異の閾値",
+    "winner_pie_empty": "閾値を超える選挙区なし",
+    "winner_pie_areas": "選挙区",
+    "normalized_pie_title": "地域別 人口あたり差異",
+    "normalized_pie_desc": "地域別の総絶対差異と有権者数の比率"
+  },
+  "diffwinratio": {
+    "title": "勝率 vs 分割投票ギャップ",
+    "x_axis": "投票差 |選挙区票 − 比例票| (人数, log)",
+    "y_axis": "% 投票者に対する得票",
+    "bubble_size_label": "当選者得票数",
+    "constituency": "選挙区",
+    "party": "政党",
+    "candidate": "候補者",
+    "votes": "得票",
+    "cons_pct": "選挙区票数",
+    "pl_pct": "比例票数",
+    "diff_pct": "差異",
+    "win_pct": "勝率 %"
+  }
+}
