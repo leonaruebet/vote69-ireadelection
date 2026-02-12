@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.gitignore
+.DS_Store
+*.md
+!app/README.md
+.do
+.claude
+.serena
+.playwright-mcp
+.vscode
+.idea
+diff*.png
