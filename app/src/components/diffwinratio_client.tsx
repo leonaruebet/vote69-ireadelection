@@ -55,6 +55,10 @@ interface BubbleDataPoint {
   party_name: string;
   /** Winning party color hex. */
   party_color: string;
+  /** MP invalid votes count. */
+  mp_invalid_votes: number;
+  /** PL invalid votes count. */
+  pl_invalid_votes: number;
 }
 
 /** Summary info for one party (for filter pills). */
@@ -171,6 +175,21 @@ function BubbleTooltip({ point, position }: BubbleTooltipProps) {
           {point.diff_count > 0 ? "+" : ""}{point.diff_count.toLocaleString()} ({point.area_diff_pct.toFixed(1)}%)
         </span>
       </div>
+
+      {/* Forensic: invalid votes */}
+      {(point.mp_invalid_votes > 0 || point.pl_invalid_votes > 0) && (
+        <>
+          <div className="h-px bg-border-primary my-1.5" />
+          <div className="flex justify-between items-center py-0.5 text-sm">
+            <span className="text-text-secondary">{t("mp_invalid")}</span>
+            <span className="font-semibold text-text-primary">{point.mp_invalid_votes.toLocaleString()}</span>
+          </div>
+          <div className="flex justify-between items-center py-0.5 text-sm">
+            <span className="text-text-secondary">{t("pl_invalid")}</span>
+            <span className="font-semibold text-text-primary">{point.pl_invalid_votes.toLocaleString()}</span>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -369,6 +388,7 @@ export default function DiffWinRatioClient({
       if (!diff) continue;
 
       const abs_diff = Math.abs(diff.diff_count);
+      const forensics = election_lookups.forensics?.[cons_data.cons_id];
 
       points.push({
         cons_id: cons_data.cons_id,
@@ -384,6 +404,8 @@ export default function DiffWinRatioClient({
         candidate_name: winner.candidate_name,
         party_name: winner.party_name,
         party_color: winner.party_color,
+        mp_invalid_votes: forensics?.mp_invalid_votes ?? 0,
+        pl_invalid_votes: forensics?.pl_invalid_votes ?? 0,
       });
     }
 

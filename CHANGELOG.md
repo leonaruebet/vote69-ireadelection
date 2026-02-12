@@ -1,5 +1,39 @@
 # CHANGELOG
 
+## [3.8.1] - 2026-02-13
+
+### Added
+- **Forensic metrics integrated into all existing pages** — exposes invalid/blank vote data across the dashboard
+  - **Root page** (`map_client.tsx`): Ballot Integrity section with 4 summary cards (total invalid diff, total blank diff, avg invalid diff %, incomplete reporting count)
+  - **Diff-count tooltip** (`diff_heatmap_client.tsx`): MP invalid votes, PL invalid votes, and invalid diff % added to hover tooltip
+  - **DiffWinRatio tooltip** (`diffwinratio_client.tsx`): MP/PL invalid vote counts in bubble tooltip
+  - **Heatmap graphs** (`heatmap_graphs_client.tsx`): 4 forensic insight cards (total invalid diff, total blank diff, avg invalid diff %, incomplete count)
+  - **Party analysis summary table** (`party_analysis_client.tsx`): 2 new columns (Avg Invalid%, Avg Blank%) per party
+- All 5 existing server pages now pass `ect_records` to `build_election_lookups()` for full forensics data
+- 20 new forensic i18n keys added across `heatmap`, `graphs`, `diffwinratio`, `party_analysis` sections (all 11 locales)
+
+## [3.8.0] - 2026-02-13
+
+### Added
+- **Ballot Forensics page** (`/[locale]/ballot-forensics`) - Deep forensic analysis dashboard
+  - **Overview Cards**: 8 headline metric cards (MP/PL invalid votes, MP/PL blank votes, avg invalid diff %, paused reporting count, incomplete count, avg referendum gap)
+  - **Invalid Vote Scatter Plot**: MP invalid % (X) vs PL invalid % (Y) per constituency, diagonal reference line (y=x), party colored dots, anomaly highlighting for dots far from diagonal
+  - **Invalid & Blank Diff Bar Chart**: top 30 constituencies by |invalid_diff| or |blank_diff|, diverging horizontal bars (green=MP higher, red=PL higher), toggle between invalid and blank mode
+  - **Reporting Completeness**: station counting progress bars for incomplete constituencies, pause_report indicators, progress as counted/total stations
+  - **Referendum Cross-Reference**: election turnout % vs referendum turnout % scatter, diagonal reference, party colored dots
+  - **Composite Anomaly Score**: weighted multi-factor score (invalid 30%, blank 20%, turnout 25%, referendum 15%, completeness 10%), top 50 ranked bar chart with color-coded severity (green/yellow/orange/red)
+  - **Interactive Drilldown Table**: all 400 constituencies, 10 sortable columns (area, party, MP inv%, PL inv%, inv diff, MP blank%, blank diff, turnout diff, counted%, anomaly score), click headers to sort, party filter pills, anomaly row highlighting
+- `ConsBallotForensicsData` type in `src/types/constituency.ts` — 21 fields covering invalid/blank/valid votes, percentages, reporting completeness, registered voters
+- `ElectionLookups.forensics` field added to election lookups bundle
+- `build_forensics_lookup()` in `src/lib/data.ts` — extracts invalid/blank/valid vote data from `RawStatsConstituency`, computes percentages, joins with `ConstituencyRecord` for registered voter counts
+- `build_election_lookups()` now accepts optional `ect_records` parameter for forensics builder
+- `src/app/[locale]/ballot-forensics/page.tsx` — server component passing ect_records for forensics data
+- `src/components/ballot_forensics_client.tsx` — client dashboard with 5 D3 charts + drilldown table
+- `ballot_forensics` i18n section across all 11 locales (th, en, lo, vi, zh, de, ja, ko, fr, sv, id)
+  - 65 translation keys: title, subtitle, overview metrics, scatter/bar labels, completeness, referendum, anomaly scoring, table headers
+- `topbar.ballot_forensics` nav link with shield icon across all 11 locales
+- Build passes with 0 errors, 6 routes rendered (including new ballot-forensics)
+
 ## [3.7.1] - 2026-02-13
 
 ### Changed

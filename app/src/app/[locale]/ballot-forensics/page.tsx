@@ -1,20 +1,19 @@
 /**
- * Home page - Thailand 400-Constituency Election Map (Server Component).
+ * Ballot Forensics page - Deep analysis of invalid/blank/valid votes.
  *
- * @description Loads constituency GeoJSON (400 เขตเลือกตั้ง) from disk
- *              and fetches ECT data server-side, then passes enriched
- *              features to the client MapClient component.
+ * @description Server component that loads constituency GeoJSON, ECT data,
+ *              and election lookups (with forensics), then passes enriched
+ *              features to BallotForensicsClient for interactive visualization.
  */
 
 import {
   load_constituency_geojson,
   fetch_ect_data,
   enrich_constituency_features,
-  calculate_totals,
   build_election_lookups,
 } from "@/lib/data";
 import Link from "next/link";
-import MapClient from "@/components/map_client";
+import BallotForensicsClient from "@/components/ballot_forensics_client";
 import { useTranslations } from "next-intl";
 
 /**
@@ -44,11 +43,17 @@ function ErrorFallback({ msg }: { msg: string }) {
   );
 }
 
-export default async function Home() {
-  console.log("[page] Server-side data loading...");
+/**
+ * Ballot Forensics page server component.
+ *
+ * @description Passes ect_records to build_election_lookups so the forensics
+ *              builder can join with registered_vote and total_vote_stations.
+ * @returns BallotForensicsClient with enriched features and election lookups.
+ */
+export default async function BallotForensicsPage() {
+  console.log("[ballot_forensics] Server-side data loading...");
 
   let features: Awaited<ReturnType<typeof enrich_constituency_features>>;
-  let totals: Awaited<ReturnType<typeof calculate_totals>>;
   let election_lookups: Awaited<ReturnType<typeof build_election_lookups>>;
 
   try {
@@ -57,23 +62,22 @@ export default async function Home() {
       fetch_ect_data(),
     ]);
 
+    // Pass ect_records so forensics builder can join registered voter data
     election_lookups = await build_election_lookups(ect_records);
     features = enrich_constituency_features(geojson, ect_records);
-    totals = calculate_totals(ect_records);
 
     console.log(
-      `[page] Passing ${features.length} constituency features + election lookups to client`
+      `[ballot_forensics] Passing ${features.length} features + election lookups (with forensics) to client`
     );
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Unknown error";
-    console.error("[page] Data load failed:", msg);
+    console.error("[ballot_forensics] Data load failed:", msg);
     return <ErrorFallback msg={msg} />;
   }
 
   return (
-    <MapClient
+    <BallotForensicsClient
       features={features}
-      totals={totals}
       election_lookups={election_lookups}
     />
   );

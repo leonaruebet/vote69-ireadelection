@@ -55,14 +55,13 @@ export default async function HeatmapPage() {
   let election_lookups: Awaited<ReturnType<typeof build_election_lookups>>;
 
   try {
-    const [geojson, ect_records, lookups] = await Promise.all([
+    const [geojson, ect_records] = await Promise.all([
       Promise.resolve(load_constituency_geojson()),
       fetch_ect_data(),
-      build_election_lookups(),
     ]);
 
+    election_lookups = await build_election_lookups(ect_records);
     features = enrich_constituency_features(geojson, ect_records);
-    election_lookups = lookups;
 
     console.log(
       `[heatmap] Passing ${features.length} features + diff lookups to client`

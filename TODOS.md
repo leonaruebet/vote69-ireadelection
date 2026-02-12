@@ -1,6 +1,24 @@
 # Thailand Constituency Map Visualization
 
 ## Done ✓
+- [x] Forensic metrics on existing pages @claude 2026-02-13
+  - Root page: Ballot Integrity section (4 summary cards)
+  - Diff-count tooltip: MP/PL invalid + invalid diff %
+  - DiffWinRatio tooltip: MP/PL invalid counts
+  - Heatmap graphs: 4 forensic insight cards
+  - Party analysis: Avg Invalid%, Avg Blank% columns
+  - All 5 server pages now pass ect_records for full forensics
+  - 20 new i18n keys across all 11 locales
+  - Build passes with 0 errors, 7 routes rendered
+- [x] Ballot Forensics dashboard page @claude 2026-02-13
+  - Route: /[locale]/ballot-forensics
+  - ConsBallotForensicsData type (21 fields) + ElectionLookups.forensics
+  - build_forensics_lookup() in data.ts, integrated into build_election_lookups()
+  - 7 sections: overview cards, invalid scatter, diff bar chart, completeness, referendum scatter, anomaly score, drilldown table
+  - 5 D3 charts + sortable table with party filter
+  - i18n: ballot_forensics section with 65 keys across all 11 locales
+  - Topbar nav link with shield icon
+  - Build passes with 0 errors, 6 routes rendered
 - [x] Party Analysis anomaly detection page @claude 2026-02-13
   - Route: /[locale]/party-analysis
   - Total absolute diff bar chart: Σ|diff| per party in winning constituencies

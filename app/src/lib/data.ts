@@ -482,12 +482,109 @@ export function build_diff_lookup(
 }
 
 /**
+ * Build ballot forensics lookup extracting invalid/blank/valid votes per constituency.
+ *
+ * @description Extracts all invalid, blank, and valid vote data from raw ECT stats.
+ *              Computes percentages relative to turnout and joins with constituency
+ *              records for registered voter counts and station totals.
+ * @param stats - Raw stats_cons response with constituency-level vote data.
+ * @param ect_records - Raw ECT constituency records for registered_vote + total_vote_stations.
+ * @returns Record keyed by cons_id → ConsBallotForensicsData.
+ */
+export function build_forensics_lookup(
+  stats: RawStatsCons,
+  ect_records: ConstituencyRecord[]
+): Record<string, ConsBallotForensicsData> {
+  console.log("[data] build_forensics_lookup start");
+
+  // Build sub-lookup: cons_id → { registered_vote, total_vote_stations }
+  const cons_ref = new Map<string, { registered: number; stations: number }>();
+  for (const rec of ect_records) {
+    if (rec.cons_no === 0) continue;
+    cons_ref.set(rec.cons_id, {
+      registered: rec.registered_vote ?? 0,
+      stations: rec.total_vote_stations ?? 0,
+    });
+  }
+
+  const result: Record<string, ConsBallotForensicsData> = {};
+
+  for (const prov of stats.result_province || []) {
+    for (const cons of prov.constituencies || []) {
+      if (cons.cons_id.endsWith("_0")) continue;
+
+      const mp_turnout = cons.turn_out ?? 0;
+      const pl_turnout = cons.party_list_turn_out ?? 0;
+
+      const mp_invalid = cons.invalid_votes ?? 0;
+      const pl_invalid = cons.party_list_invalid_votes ?? 0;
+      const mp_blank = cons.blank_votes ?? 0;
+      const pl_blank = cons.party_list_blank_votes ?? 0;
+      const mp_valid = cons.valid_votes ?? 0;
+      const pl_valid = cons.party_list_valid_votes ?? 0;
+
+      /**
+       * Safely compute percentage: value / total * 100.
+       *
+       * @param value - Numerator.
+       * @param total - Denominator (turnout).
+       * @returns Percentage, or 0 if total is 0.
+       */
+      const safe_pct = (value: number, total: number): number =>
+        total > 0 ? (value / total) * 100 : 0;
+
+      const mp_invalid_pct = safe_pct(mp_invalid, mp_turnout);
+      const pl_invalid_pct = safe_pct(pl_invalid, pl_turnout);
+      const mp_blank_pct = safe_pct(mp_blank, mp_turnout);
+      const pl_blank_pct = safe_pct(pl_blank, pl_turnout);
+      const mp_valid_pct = safe_pct(mp_valid, mp_turnout);
+      const pl_valid_pct = safe_pct(pl_valid, pl_turnout);
+
+      const ref = cons_ref.get(cons.cons_id);
+      const registered = ref?.registered ?? 0;
+      const total_stations = ref?.stations ?? 0;
+
+      result[cons.cons_id] = {
+        mp_invalid_votes: mp_invalid,
+        mp_invalid_pct,
+        pl_invalid_votes: pl_invalid,
+        pl_invalid_pct,
+        invalid_diff: mp_invalid_pct - pl_invalid_pct,
+        mp_blank_votes: mp_blank,
+        mp_blank_pct,
+        pl_blank_votes: pl_blank,
+        pl_blank_pct,
+        blank_diff: mp_blank_pct - pl_blank_pct,
+        mp_valid_votes: mp_valid,
+        mp_valid_pct,
+        pl_valid_votes: pl_valid,
+        pl_valid_pct,
+        valid_diff: mp_valid_pct - pl_valid_pct,
+        counted_vote_stations: cons.counted_vote_stations ?? 0,
+        total_vote_stations: total_stations,
+        percent_count: cons.percent_count ?? 0,
+        pause_report: cons.pause_report ?? false,
+        registered_voters: registered,
+        mp_turnout_of_registered: safe_pct(mp_turnout, registered),
+      };
+    }
+  }
+
+  console.log(
+    `[data] build_forensics_lookup done: ${Object.keys(result).length} constituencies`
+  );
+  return result;
+}
+
+/**
  * Fetch all election data and build combined lookups.
  * Resilient: returns empty lookups on failure.
  *
- * @returns ElectionLookups bundle with winners, party_list, referendum.
+ * @returns ElectionLookups bundle with winners, party_list, referendum, diff, forensics.
  */
-export async function build_election_lookups(): Promise<ElectionLookups> {
+export async function build_election_lookups(
+  ect_records?: ConstituencyRecord[]
+): Promise<ElectionLookups> {
   console.log("[data] build_election_lookups start");
 
   const empty_lookups: ElectionLookups = {
@@ -495,6 +592,7 @@ export async function build_election_lookups(): Promise<ElectionLookups> {
     party_list: {},
     referendum: {},
     diff: {},
+    forensics: {},
   };
 
   try {
@@ -510,9 +608,10 @@ export async function build_election_lookups(): Promise<ElectionLookups> {
     const party_list = build_party_list_lookup(stats_cons, party_overview);
     const referendum = build_referendum_lookup(stats_ref);
     const diff = build_diff_lookup(stats_cons);
+    const forensics = build_forensics_lookup(stats_cons, ect_records ?? []);
 
     console.log("[data] build_election_lookups done successfully");
-    return { winners, party_list, referendum, diff };
+    return { winners, party_list, referendum, diff, forensics };
   } catch (err) {
     const msg = err instanceof Error ? err.message : "Unknown error";
     console.error(`[data] Election data fetch failed: ${msg}`);

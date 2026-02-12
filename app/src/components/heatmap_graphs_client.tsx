@@ -381,6 +381,37 @@ export default function HeatmapGraphsClient({
     };
   }, [all_diffs, pie_data]);
 
+  // ── Forensic aggregate metrics ─────────────
+
+  /** Aggregate forensic metrics for insight cards. */
+  const forensic_agg = useMemo(() => {
+    console.log("[heatmap_graphs] Computing forensic aggregate");
+    let total_invalid_diff = 0;
+    let total_blank_diff = 0;
+    let sum_invalid_diff_pct = 0;
+    let incomplete_count = 0;
+    let count = 0;
+
+    for (const f of features) {
+      const cons_data = f.properties._cons_data;
+      if (!cons_data) continue;
+      const forensics = election_lookups.forensics?.[cons_data.cons_id];
+      if (!forensics) continue;
+      count++;
+      total_invalid_diff += Math.abs(forensics.mp_invalid_votes - forensics.pl_invalid_votes);
+      total_blank_diff += Math.abs(forensics.mp_blank_votes - forensics.pl_blank_votes);
+      sum_invalid_diff_pct += Math.abs(forensics.invalid_diff);
+      if (forensics.percent_count < 100) incomplete_count++;
+    }
+
+    return {
+      total_invalid_diff,
+      total_blank_diff,
+      avg_invalid_diff_pct: count > 0 ? sum_invalid_diff_pct / count : 0,
+      incomplete_count,
+    };
+  }, [features, election_lookups.forensics]);
+
   // ── D3 Pie Chart Effect ────────────────────
 
   useEffect(() => {
@@ -1003,6 +1034,37 @@ export default function HeatmapGraphsClient({
               color={REGION_COLORS[insights.lowest_region]}
               icon="low"
             />
+
+            {/* Forensic: invalid vote diff */}
+            {forensic_agg.total_invalid_diff > 0 && (
+              <>
+                <InsightCard
+                  label={t("insight_total_invalid_diff")}
+                  value={forensic_agg.total_invalid_diff.toLocaleString()}
+                  color="#ef4444"
+                  icon="sigma"
+                />
+                <InsightCard
+                  label={t("insight_total_blank_diff")}
+                  value={forensic_agg.total_blank_diff.toLocaleString()}
+                  color="#eab308"
+                  icon="equal"
+                />
+                <InsightCard
+                  label={t("insight_avg_invalid_diff")}
+                  value={`${forensic_agg.avg_invalid_diff_pct.toFixed(2)}%`}
+                  color="#f97316"
+                  icon="spread"
+                />
+                <InsightCard
+                  label={t("insight_incomplete")}
+                  value={`${forensic_agg.incomplete_count}`}
+                  sub={`/ ${insights.total_areas} ${t("constituency")}`}
+                  color="#a855f7"
+                  icon="low"
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

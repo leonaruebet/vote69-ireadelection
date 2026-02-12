@@ -123,6 +123,35 @@ export default function MapClient({ features, totals, election_lookups }: MapCli
     return items;
   }, [features, election_lookups]);
 
+  /** Aggregate forensic metrics from all constituencies. */
+  const forensic_summary = useMemo(() => {
+    console.log("[map_client] Computing forensic summary");
+    let total_invalid_diff = 0;
+    let total_blank_diff = 0;
+    let sum_invalid_diff_pct = 0;
+    let incomplete_count = 0;
+    let count = 0;
+
+    for (const f of features) {
+      const cons_data = f.properties._cons_data;
+      if (!cons_data) continue;
+      const forensics = election_lookups.forensics?.[cons_data.cons_id];
+      if (!forensics) continue;
+      count++;
+      total_invalid_diff += Math.abs(forensics.mp_invalid_votes - forensics.pl_invalid_votes);
+      total_blank_diff += Math.abs(forensics.mp_blank_votes - forensics.pl_blank_votes);
+      sum_invalid_diff_pct += Math.abs(forensics.invalid_diff);
+      if (forensics.percent_count < 100) incomplete_count++;
+    }
+
+    return {
+      total_invalid_diff,
+      total_blank_diff,
+      avg_invalid_diff_pct: count > 0 ? sum_invalid_diff_pct / count : 0,
+      incomplete_count,
+    };
+  }, [features, election_lookups.forensics]);
+
   const dot_colors = get_diff_dot_colors();
   const is_pct = display_mode === "percent";
 
@@ -338,6 +367,33 @@ export default function MapClient({ features, totals, election_lookups }: MapCli
             </div>
           </div>
         </div>
+
+        {/* Forensic: Ballot integrity section */}
+        {forensic_summary.total_invalid_diff > 0 && (
+          <div className="mb-10">
+            <div className="text-sm font-semibold text-text-primary uppercase tracking-wider mb-4">
+              {t("forensics_title")}
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+              <div className="bg-bg-secondary border border-border-primary rounded-xl p-5 text-center">
+                <div className="text-xs text-text-muted mb-2">{t("forensics_total_invalid")}</div>
+                <div className="text-2xl font-bold text-red-400">{forensic_summary.total_invalid_diff.toLocaleString()}</div>
+              </div>
+              <div className="bg-bg-secondary border border-border-primary rounded-xl p-5 text-center">
+                <div className="text-xs text-text-muted mb-2">{t("forensics_total_blank")}</div>
+                <div className="text-2xl font-bold text-yellow-400">{forensic_summary.total_blank_diff.toLocaleString()}</div>
+              </div>
+              <div className="bg-bg-secondary border border-border-primary rounded-xl p-5 text-center">
+                <div className="text-xs text-text-muted mb-2">{t("forensics_avg_invalid_pct")}</div>
+                <div className="text-2xl font-bold text-orange-400">{forensic_summary.avg_invalid_diff_pct.toFixed(2)}%</div>
+              </div>
+              <div className="bg-bg-secondary border border-border-primary rounded-xl p-5 text-center">
+                <div className="text-xs text-text-muted mb-2">{t("forensics_incomplete")}</div>
+                <div className="text-2xl font-bold text-purple-400">{forensic_summary.incomplete_count}</div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Per-region sections */}
         {REGION_ORDER.map((key) => (

@@ -58,6 +58,10 @@ interface PartyStats {
   diffs: number[];
   anomaly_count: number;
   anomalies: PartyConsItem[];
+  /** Average MP invalid vote % across party's constituencies. */
+  avg_invalid_pct: number;
+  /** Average MP blank vote % across party's constituencies. */
+  avg_blank_pct: number;
 }
 
 // ── Component props ────────────────────────
@@ -179,6 +183,19 @@ export default function PartyAnalysisClient({
         return z > 2;
       });
 
+      // Forensic: average invalid/blank vote percentages per party
+      let sum_invalid_pct = 0;
+      let sum_blank_pct = 0;
+      let forensics_count = 0;
+      for (const item of items) {
+        const forensics = election_lookups.forensics?.[item.cons_id];
+        if (forensics) {
+          sum_invalid_pct += forensics.mp_invalid_pct;
+          sum_blank_pct += forensics.mp_blank_pct;
+          forensics_count++;
+        }
+      }
+
       stats.push({
         party_name,
         party_color: items[0].party_color,
@@ -196,6 +213,8 @@ export default function PartyAnalysisClient({
         diffs,
         anomaly_count: anomalies.length,
         anomalies,
+        avg_invalid_pct: forensics_count > 0 ? sum_invalid_pct / forensics_count : 0,
+        avg_blank_pct: forensics_count > 0 ? sum_blank_pct / forensics_count : 0,
       });
     }
 
@@ -912,6 +931,8 @@ export default function PartyAnalysisClient({
                     <th className="text-right px-4 py-3 text-text-muted font-semibold">{t("summary_avg_diff")}</th>
                     <th className="text-right px-4 py-3 text-text-muted font-semibold">{t("summary_avg_pct")}</th>
                     <th className="text-right px-4 py-3 text-text-muted font-semibold">{t("summary_std_dev")}</th>
+                    <th className="text-right px-4 py-3 text-text-muted font-semibold">{t("summary_avg_invalid")}</th>
+                    <th className="text-right px-4 py-3 text-text-muted font-semibold">{t("summary_avg_blank")}</th>
                     <th className="text-right px-4 py-3 text-text-muted font-semibold">{t("summary_anomalies")}</th>
                   </tr>
                 </thead>
@@ -936,6 +957,8 @@ export default function PartyAnalysisClient({
                         {p.avg_diff_percent > 0 ? "+" : ""}{p.avg_diff_percent.toFixed(2)}%
                       </td>
                       <td className="px-4 py-2.5 text-right text-text-secondary">{p.std_dev.toFixed(1)}</td>
+                      <td className="px-4 py-2.5 text-right text-text-secondary">{p.avg_invalid_pct.toFixed(2)}%</td>
+                      <td className="px-4 py-2.5 text-right text-text-secondary">{p.avg_blank_pct.toFixed(2)}%</td>
                       <td className="px-4 py-2.5 text-right">
                         {p.anomaly_count > 0 ? (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 font-bold">{p.anomaly_count}</span>

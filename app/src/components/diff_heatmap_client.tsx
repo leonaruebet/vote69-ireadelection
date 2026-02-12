@@ -117,6 +117,9 @@ function DiffTooltip({
   const winner = data.cons_id
     ? election_lookups.winners[data.cons_id]
     : null;
+  const forensics = data.cons_id
+    ? election_lookups.forensics?.[data.cons_id]
+    : null;
 
   if (!diff_data) return null;
 
@@ -192,6 +195,31 @@ function DiffTooltip({
             : `${Math.abs(diff_data.diff_percent).toFixed(2)}%`}
         </span>
       </div>
+
+      {/* Forensic: invalid & blank vote data */}
+      {forensics && (
+        <>
+          <div className="h-px bg-border-primary my-1.5" />
+          <div className="flex justify-between items-center py-0.5 text-sm">
+            <span className="text-text-secondary">{t("mp_invalid")}</span>
+            <span className="font-semibold text-text-primary">
+              {forensics.mp_invalid_votes.toLocaleString()} ({forensics.mp_invalid_pct.toFixed(1)}%)
+            </span>
+          </div>
+          <div className="flex justify-between items-center py-0.5 text-sm">
+            <span className="text-text-secondary">{t("pl_invalid")}</span>
+            <span className="font-semibold text-text-primary">
+              {forensics.pl_invalid_votes.toLocaleString()} ({forensics.pl_invalid_pct.toFixed(1)}%)
+            </span>
+          </div>
+          <div className="flex justify-between items-center py-0.5 text-sm">
+            <span className="text-text-secondary font-medium">{t("invalid_diff")}</span>
+            <span className="font-bold" style={{ color: Math.abs(forensics.invalid_diff) > 1 ? "#ef4444" : "#6b7280" }}>
+              {forensics.invalid_diff > 0 ? "+" : ""}{forensics.invalid_diff.toFixed(2)}%
+            </span>
+          </div>
+        </>
+      )}
     </div>
   );
 }
