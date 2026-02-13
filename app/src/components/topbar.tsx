@@ -54,6 +54,7 @@ export default function TopBar({
   const [menu_open, set_menu_open] = useState(false);
   const lang_ref = useRef<HTMLDivElement>(null);
   const menu_ref = useRef<HTMLDivElement>(null);
+  const menu_panel_ref = useRef<HTMLDivElement>(null);
 
   console.log("[topbar] Rendering topbar");
 
@@ -65,7 +66,11 @@ export default function TopBar({
       if (lang_ref.current && !lang_ref.current.contains(e.target as Node)) {
         set_lang_open(false);
       }
-      if (menu_ref.current && !menu_ref.current.contains(e.target as Node)) {
+      if (
+        menu_ref.current &&
+        !menu_ref.current.contains(e.target as Node) &&
+        (!menu_panel_ref.current || !menu_panel_ref.current.contains(e.target as Node))
+      ) {
         set_menu_open(false);
       }
     }
@@ -394,6 +399,7 @@ export default function TopBar({
 
           {/* Menu panel */}
           <div
+            ref={menu_panel_ref}
             className="absolute top-16 left-4 right-4 bg-bg-secondary/98 backdrop-blur-xl border border-border-primary rounded-2xl shadow-[0_8px_40px_var(--shadow-tooltip)] p-3 animate-[slideDown_0.2s_ease-out]"
             onClick={(e) => e.stopPropagation()}
           >

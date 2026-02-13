@@ -16,6 +16,11 @@
   - Added `load_local_json<T>()` and `data_path()` helpers for consistent local file reading
   - Build 3x faster (3.0s vs ~9s) — no network round-trips during SSR
   - Build passes with 0 errors, 7 routes rendered, 400 constituencies matched
+- **Mobile hamburger menu: nav links not clickable** — tapping a nav link in the slide-down menu did nothing
+  - Root cause: `mousedown` outside-click handler closed menu before `click` could fire on `<a>` tag
+  - `menu_ref` only wrapped the hamburger button, not the menu panel — so tapping inside the panel was treated as "outside"
+  - Added `menu_panel_ref` on the slide-down panel and check both refs in the outside-click handler
+  - Nav links now navigate correctly on mobile
 
 ## [3.8.2] - 2026-02-13
 
