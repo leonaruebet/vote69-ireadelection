@@ -1,6 +1,14 @@
 # Thailand Constituency Map Visualization
 
 ## Done ✓
+- [x] Mobile responsiveness + TopBar z-index fix @claude 2026-02-13
+  - TopBar: fixed positioning z-[100] + pointer-events-auto
+  - Mobile menu: z-[200] above all page content
+  - Sub-bars: fixed positioning, hidden on small screens
+  - Content padding tightened for mobile (px-3, pt-20)
+  - Zoom controls, legends, and pie chart cards responsive
+  - ESLint: 0 errors, 0 warnings
+  - Build passes with 0 errors, 7 routes rendered
 - [x] Forensic metrics on existing pages @claude 2026-02-13
   - Root page: Ballot Integrity section (4 summary cards)
   - Diff-count tooltip: MP/PL invalid + invalid diff %

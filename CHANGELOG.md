@@ -1,5 +1,45 @@
 # CHANGELOG
 
+## [3.8.3] - 2026-02-13
+
+### Fixed
+- **ECT API 403 in production** — server-side `fetch()` to ECT endpoints returned 403 Forbidden on DigitalOcean
+  - Root cause: bare Node.js fetch lacks browser headers; ECT servers reject non-browser requests
+  - Added `ECT_FETCH_HEADERS` constant with User-Agent, Accept, Accept-Language, Referer, Origin headers
+  - Applied to both `fetch_ect_data()` (info_constituency) and `fetch_json()` (stats_cons, stats_referendum, info_mp_candidate, info_party_overview)
+  - Build passes with 0 errors, 7 routes rendered
+
+## [3.8.2] - 2026-02-13
+
+### Fixed
+- **TopBar: z-index + fixed positioning** — changed from `absolute z-[90]` to `fixed z-[100]` so topbar stays on top of all page content and is always clickable
+  - Added `pointer-events-auto` to topbar wrapper for explicit click-through safety
+  - Added `relative` to inner bar for proper stacking context
+  - Mobile menu overlay raised from `z-[89]` to `z-[200]` — no longer conflicts with page sub-bars
+  - Language dropdown raised to `z-[110]`
+- **Sub-bars: fixed positioning + mobile visibility**
+  - `diff_heatmap_client`: sub-bar changed from `absolute z-[89]` to `fixed z-[90]`, added `max-w-[calc(100%-2rem)]`
+  - `diffwinratio_client`: sub-bar and party filter changed to `fixed` positioning, sub-bar hidden on small screens (`hidden sm:block`)
+  - `heatmap_graphs_client`: sub-bar hidden on small screens (`hidden sm:block`), changed to `fixed z-[90]`
+  - `party_analysis_client`: sub-bar hidden on small screens, changed to `fixed z-[90]`
+  - `ballot_forensics_client`: sub-bar hidden on small screens, changed to `fixed z-[90]`
+  - Party filter on diffwinratio adjusts `top` position on mobile when sub-bar is hidden (`top-[4.5rem] sm:top-[7.5rem]`)
+
+### Changed
+- **Mobile responsiveness improvements across all pages**
+  - `thailand_map`: zoom controls responsive (`bottom-4 right-4 sm:bottom-6 sm:right-6`)
+  - Content padding tightened on mobile: `px-3` on small screens, `sm:px-6` on larger
+  - Top padding reduced on mobile: `pt-20` when sub-bar is hidden, `sm:pt-32` when visible
+  - `heatmap_graphs_client`: title responsive `text-xl sm:text-2xl`, margins reduced
+  - Pie chart card padding responsive `p-4 sm:p-6`
+  - `map_client`: content padding reduced on mobile
+
+### Fixed
+- **ESLint warnings resolved (0 errors, 0 warnings)**
+  - `ballot_forensics_client`: removed unused `referendum` variable
+  - `party_analysis_client`: added missing `election_lookups.forensics` dependency to `useMemo`
+- Build passes with 0 errors, 7 routes rendered
+
 ## [3.8.1] - 2026-02-13
 
 ### Added

@@ -31,6 +31,24 @@ import {
 } from "@/lib/constants";
 import type { GeoJSON } from "geojson";
 
+// ── Browser-like headers for ECT API requests ──
+
+/**
+ * Common HTTP headers that mimic a browser request.
+ *
+ * @description ECT servers return 403 for bare server-side fetches.
+ *              Adding standard browser headers (User-Agent, Accept, Referer)
+ *              resolves the issue in production (DigitalOcean, Vercel, etc.).
+ */
+const ECT_FETCH_HEADERS: HeadersInit = {
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  Accept: "application/json, text/plain, */*",
+  "Accept-Language": "th,en;q=0.9",
+  Referer: "https://ectreport69.ect.go.th/",
+  Origin: "https://ectreport69.ect.go.th",
+};
+
 // ── Data fetching (server-side) ────────────────
 
 /**
@@ -57,6 +75,7 @@ export async function fetch_ect_data(): Promise<ConstituencyRecord[]> {
   console.log("[data] Fetching ECT constituency data...");
   const res = await fetch(DATA_URLS.constituency, {
     next: { revalidate: 3600 },
+    headers: ECT_FETCH_HEADERS,
   });
 
   if (!res.ok) {
@@ -206,7 +225,10 @@ export function calculate_totals(records: ConstituencyRecord[]): TotalStats {
  */
 async function fetch_json<T>(url: string, revalidate: number): Promise<T> {
   console.log(`[data] Fetching ${url.split("/").pop()}...`);
-  const res = await fetch(url, { next: { revalidate } });
+  const res = await fetch(url, {
+    next: { revalidate },
+    headers: ECT_FETCH_HEADERS,
+  });
   if (!res.ok) {
     throw new Error(`Fetch failed for ${url}: ${res.status}`);
   }
