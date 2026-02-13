@@ -3,11 +3,19 @@
 ## [3.8.3] - 2026-02-13
 
 ### Fixed
-- **ECT API 403 in production** — server-side `fetch()` to ECT endpoints returned 403 Forbidden on DigitalOcean
-  - Root cause: bare Node.js fetch lacks browser headers; ECT servers reject non-browser requests
-  - Added `ECT_FETCH_HEADERS` constant with User-Agent, Accept, Accept-Language, Referer, Origin headers
-  - Applied to both `fetch_ect_data()` (info_constituency) and `fetch_json()` (stats_cons, stats_referendum, info_mp_candidate, info_party_overview)
-  - Build passes with 0 errors, 7 routes rendered
+- **ECT API 403 in production** — ECT servers block cloud/datacenter IPs (DigitalOcean) with 403 Forbidden
+  - Root cause: ECT API (`ect.go.th`) rejects server-side requests from non-residential IPs; browser headers alone do not bypass
+  - Solution: cached all 5 ECT API responses as local static JSON files in `public/data/`
+    - `info_constituency.json` (128KB) — constituency reference data
+    - `stats_cons.json` (2.9MB) — election results per constituency
+    - `stats_referendum.json` (245KB) — referendum results
+    - `info_mp_candidate.json` (1.1MB) — candidate names/images
+    - `info_party_overview.json` (17KB) — party names/colors/logos
+  - Rewired all data loaders in `data.ts` to `readFileSync` from `public/data/` instead of `fetch()` from ECT
+  - Removed `ECT_FETCH_HEADERS`, `fetch_json()`, and `DATA_URLS` import (no external API calls at runtime)
+  - Added `load_local_json<T>()` and `data_path()` helpers for consistent local file reading
+  - Build 3x faster (3.0s vs ~9s) — no network round-trips during SSR
+  - Build passes with 0 errors, 7 routes rendered, 400 constituencies matched
 
 ## [3.8.2] - 2026-02-13
 

@@ -24,32 +24,39 @@ import type {
   ElectionLookups,
 } from "@/types/constituency";
 import {
-  DATA_URLS,
   PROV_ID_TO_NAME,
   PROV_ID_TO_THAI,
   THAI_NAME_TO_PROV_ID,
 } from "@/lib/constants";
 import type { GeoJSON } from "geojson";
 
-// ── Browser-like headers for ECT API requests ──
+// ── Local data directory ────────────────────────
 
 /**
- * Common HTTP headers that mimic a browser request.
+ * Resolve path to a local data file in public/data/.
  *
- * @description ECT servers return 403 for bare server-side fetches.
- *              Adding standard browser headers (User-Agent, Accept, Referer)
- *              resolves the issue in production (DigitalOcean, Vercel, etc.).
+ * @param filename - Name of the JSON file (e.g. "info_constituency.json").
+ * @returns Absolute path to the file.
  */
-const ECT_FETCH_HEADERS: HeadersInit = {
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-  Accept: "application/json, text/plain, */*",
-  "Accept-Language": "th,en;q=0.9",
-  Referer: "https://ectreport69.ect.go.th/",
-  Origin: "https://ectreport69.ect.go.th",
-};
+function data_path(filename: string): string {
+  return join(process.cwd(), "public", "data", filename);
+}
 
-// ── Data fetching (server-side) ────────────────
+/**
+ * Read and parse a local JSON data file.
+ *
+ * @param filename - Name of the JSON file in public/data/.
+ * @returns Parsed JSON content.
+ */
+function load_local_json<T>(filename: string): T {
+  console.log(`[data] Loading local ${filename}...`);
+  const raw = readFileSync(data_path(filename), "utf-8");
+  const parsed = JSON.parse(raw) as T;
+  console.log(`[data] Loaded ${filename}`);
+  return parsed;
+}
+
+// ── Data fetching (server-side, local files) ───
 
 /**
  * Load the constituency-level GeoJSON from public/data.
@@ -58,7 +65,7 @@ const ECT_FETCH_HEADERS: HeadersInit = {
  */
 export function load_constituency_geojson(): GeoJSON.FeatureCollection {
   console.log("[data] Loading constituency GeoJSON from disk...");
-  const file_path = join(process.cwd(), "public", "data", "constituencies.json");
+  const file_path = data_path("constituencies.json");
   const raw = readFileSync(file_path, "utf-8");
   const geojson = JSON.parse(raw) as GeoJSON.FeatureCollection;
   console.log(`[data] Loaded ${geojson.features.length} constituency features`);
@@ -66,24 +73,16 @@ export function load_constituency_geojson(): GeoJSON.FeatureCollection {
 }
 
 /**
- * Fetch ECT constituency data from the API.
+ * Load ECT constituency data from local cached file.
  *
+ * @description Reads from public/data/info_constituency.json instead of
+ *              hitting the ECT API, which blocks cloud server IPs with 403.
  * @returns Array of raw constituency records.
- * @throws Error if fetch fails.
  */
 export async function fetch_ect_data(): Promise<ConstituencyRecord[]> {
-  console.log("[data] Fetching ECT constituency data...");
-  const res = await fetch(DATA_URLS.constituency, {
-    next: { revalidate: 3600 },
-    headers: ECT_FETCH_HEADERS,
-  });
-
-  if (!res.ok) {
-    throw new Error(`ECT fetch failed: ${res.status}`);
-  }
-
-  const records = (await res.json()) as ConstituencyRecord[];
-  console.log(`[data] Fetched ${records.length} ECT records`);
+  console.log("[data] Loading ECT constituency data from local cache...");
+  const records = load_local_json<ConstituencyRecord[]>("info_constituency.json");
+  console.log(`[data] Loaded ${records.length} ECT records`);
   return records;
 }
 
@@ -214,35 +213,16 @@ export function calculate_totals(records: ConstituencyRecord[]): TotalStats {
   };
 }
 
-// ── Election data fetching ─────────────────────
+// ── Election data loading (local cached files) ─
 
 /**
- * Generic JSON fetcher with configurable revalidation.
- *
- * @param url - URL to fetch.
- * @param revalidate - Cache revalidation in seconds (300 for live stats, 3600 for static refs).
- * @returns Parsed JSON response.
- */
-async function fetch_json<T>(url: string, revalidate: number): Promise<T> {
-  console.log(`[data] Fetching ${url.split("/").pop()}...`);
-  const res = await fetch(url, {
-    next: { revalidate },
-    headers: ECT_FETCH_HEADERS,
-  });
-  if (!res.ok) {
-    throw new Error(`Fetch failed for ${url}: ${res.status}`);
-  }
-  return res.json() as Promise<T>;
-}
-
-/**
- * Fetch live constituency election results.
+ * Load constituency election results from local cache.
  *
  * @returns Raw stats_cons response with winners + party list per constituency.
  */
 export async function fetch_stats_cons(): Promise<RawStatsCons> {
-  console.log("[data] fetch_stats_cons start");
-  const data = await fetch_json<RawStatsCons>(DATA_URLS.stats_cons, 300);
+  console.log("[data] fetch_stats_cons start (local)");
+  const data = load_local_json<RawStatsCons>("stats_cons.json");
   console.log(
     `[data] fetch_stats_cons done: ${data.result_province?.length ?? 0} provinces`
   );
@@ -250,16 +230,13 @@ export async function fetch_stats_cons(): Promise<RawStatsCons> {
 }
 
 /**
- * Fetch live referendum results.
+ * Load referendum results from local cache.
  *
  * @returns Raw stats_referendum response with yes/no/abstain per constituency.
  */
 export async function fetch_stats_referendum(): Promise<RawStatsReferendum> {
-  console.log("[data] fetch_stats_referendum start");
-  const data = await fetch_json<RawStatsReferendum>(
-    DATA_URLS.stats_referendum,
-    300
-  );
+  console.log("[data] fetch_stats_referendum start (local)");
+  const data = load_local_json<RawStatsReferendum>("stats_referendum.json");
   console.log(
     `[data] fetch_stats_referendum done: ${data.result_province?.length ?? 0} provinces`
   );
@@ -267,31 +244,25 @@ export async function fetch_stats_referendum(): Promise<RawStatsReferendum> {
 }
 
 /**
- * Fetch MP candidate reference data.
+ * Load MP candidate reference data from local cache.
  *
  * @returns Array of candidate records (names + images).
  */
 export async function fetch_mp_candidates(): Promise<RawMpCandidate[]> {
-  console.log("[data] fetch_mp_candidates start");
-  const data = await fetch_json<RawMpCandidate[]>(
-    DATA_URLS.info_mp_candidate,
-    3600
-  );
+  console.log("[data] fetch_mp_candidates start (local)");
+  const data = load_local_json<RawMpCandidate[]>("info_mp_candidate.json");
   console.log(`[data] fetch_mp_candidates done: ${data.length} candidates`);
   return data;
 }
 
 /**
- * Fetch party overview reference data.
+ * Load party overview reference data from local cache.
  *
  * @returns Array of party records (57 parties: name, color, logo).
  */
 export async function fetch_party_overview(): Promise<RawPartyOverview[]> {
-  console.log("[data] fetch_party_overview start");
-  const data = await fetch_json<RawPartyOverview[]>(
-    DATA_URLS.info_party_overview,
-    3600
-  );
+  console.log("[data] fetch_party_overview start (local)");
+  const data = load_local_json<RawPartyOverview[]>("info_party_overview.json");
   console.log(`[data] fetch_party_overview done: ${data.length} parties`);
   return data;
 }
